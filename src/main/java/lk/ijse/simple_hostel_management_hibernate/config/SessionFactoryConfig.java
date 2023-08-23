@@ -1,11 +1,13 @@
 package lk.ijse.simple_hostel_management_hibernate.config;
 
+import lk.ijse.simple_hostel_management_hibernate.entity.Reservation;
+import lk.ijse.simple_hostel_management_hibernate.entity.Room;
+import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 public class SessionFactoryConfig {
@@ -21,7 +23,11 @@ public class SessionFactoryConfig {
             System.out.println(e);
             System.out.println("error encountered while loading the property file");
         }
-        sessionFactory=new Configuration().setProperties(properties).buildSessionFactory();
+        sessionFactory=new Configuration().setProperties(properties)
+                .addAnnotatedClass(Student.class)
+                .addAnnotatedClass(Room.class)
+                .addAnnotatedClass(Reservation.class)
+                .buildSessionFactory();
     }
 
     public static SessionFactoryConfig getInstance(){
