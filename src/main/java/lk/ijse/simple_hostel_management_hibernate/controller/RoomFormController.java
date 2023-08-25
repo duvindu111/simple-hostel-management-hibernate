@@ -1,23 +1,30 @@
 package lk.ijse.simple_hostel_management_hibernate.controller;
 
 import com.jfoenix.controls.JFXButton;
-import java.net.URL;
-import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
+import lk.ijse.simple_hostel_management_hibernate.dto.RoomDTO;
+import lk.ijse.simple_hostel_management_hibernate.service.ServiceFactory;
+import lk.ijse.simple_hostel_management_hibernate.service.custom.RoomService;
+import lk.ijse.simple_hostel_management_hibernate.view.tm.RoomTM;
+import lk.ijse.simple_hostel_management_hibernate.view.tm.StudentTM;
+
+import java.time.LocalDate;
 
 public class RoomFormController{
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private JFXButton btnBack;
@@ -38,7 +45,10 @@ public class RoomFormController{
     private TableColumn<?, ?> colKeyMoney;
 
     @FXML
-    private TableColumn<?, ?> colQuantity;
+    private TableColumn<?, ?> colPersonsQty;
+
+    @FXML
+    private TableColumn<?, ?> colRoomQty;
 
     @FXML
     private TableColumn<?, ?> colType;
@@ -47,7 +57,7 @@ public class RoomFormController{
     private AnchorPane studentFormAncPane;
 
     @FXML
-    private TableView<?> tableStudent;
+    private TableView<RoomTM> tableRoom;
 
     @FXML
     private TextField txtId;
@@ -56,10 +66,15 @@ public class RoomFormController{
     private TextField txtKeyMoney;
 
     @FXML
-    private TextField txtQuantity;
+    private TextField txtPersonQty;
+
+    @FXML
+    private TextField txtRoomQty;
 
     @FXML
     private TextField txtType;
+
+    RoomService roomService = ServiceFactory.getServiceFactory().getservice(ServiceFactory.ServiceTypes.ROOM);
 
     @FXML
     void initialize() {
@@ -69,18 +84,108 @@ public class RoomFormController{
         assert btnUpdate != null : "fx:id=\"btnUpdate\" was not injected: check your FXML file 'room_form.fxml'.";
         assert colId != null : "fx:id=\"colId\" was not injected: check your FXML file 'room_form.fxml'.";
         assert colKeyMoney != null : "fx:id=\"colKeyMoney\" was not injected: check your FXML file 'room_form.fxml'.";
-        assert colQuantity != null : "fx:id=\"colQuantity\" was not injected: check your FXML file 'room_form.fxml'.";
         assert colType != null : "fx:id=\"colType\" was not injected: check your FXML file 'room_form.fxml'.";
         assert studentFormAncPane != null : "fx:id=\"studentFormAncPane\" was not injected: check your FXML file 'room_form.fxml'.";
-        assert tableStudent != null : "fx:id=\"tableStudent\" was not injected: check your FXML file 'room_form.fxml'.";
         assert txtId != null : "fx:id=\"txtId\" was not injected: check your FXML file 'room_form.fxml'.";
         assert txtKeyMoney != null : "fx:id=\"txtKeyMoney\" was not injected: check your FXML file 'room_form.fxml'.";
-        assert txtQuantity != null : "fx:id=\"txtQuantity\" was not injected: check your FXML file 'room_form.fxml'.";
         assert txtType != null : "fx:id=\"txtType\" was not injected: check your FXML file 'room_form.fxml'.";
 
         Image image = new Image("assets/images/back_icon.png");
         ImageView imageView = new ImageView(image);
         btnBack.setGraphic(imageView);
+
+        setDataToTableView();
+        setCellValueFactory();
     }
 
+    public void btnDeleteOnAction(ActionEvent actionEvent) {
+        RoomDTO roomDTO = getDetailsInTextFields();
+        boolean saved = roomService.deleteRoomType(roomDTO);
+        setDataToTableView();
+        if(saved){
+            AlertController.confirmmessage("room details updated successfully");
+            clearTxtFields();
+        }else{
+            AlertController.errormessage("room details updating process unsuccessful");
+        }
+    }
+
+    public void btnUpdateOnAction(ActionEvent actionEvent) {
+        RoomDTO roomDTO = getDetailsInTextFields();
+        boolean saved = roomService.updateRoomType(roomDTO);
+        setDataToTableView();
+        if(saved){
+            AlertController.confirmmessage("room details updated successfully");
+            clearTxtFields();
+        }else{
+            AlertController.errormessage("room details updating process unsuccessful");
+        }
+    }
+
+    public void btnSaveOnAction(ActionEvent actionEvent) {
+        RoomDTO roomDTO = getDetailsInTextFields();
+        boolean saved = roomService.saveRoomType(roomDTO);
+        setDataToTableView();
+        if(saved){
+            AlertController.confirmmessage("room details saved successfully");
+            clearTxtFields();
+        }else{
+            AlertController.errormessage("room details saving process unsuccessful");
+        }
+    }
+
+    private void setDataToTableView() {
+        ObservableList<RoomDTO> roomDtoList = roomService.getDetailsToTableView();
+        ObservableList<RoomTM> roomTmList = FXCollections.observableArrayList();
+        for (RoomDTO dto : roomDtoList){
+            roomTmList.add(
+                    new RoomTM(
+                            dto.getRoomTypeId(),
+                            dto.getRoomType(),
+                            dto.getPerRoom(),
+                            dto.getKeyMoney(),
+                            dto.getRoomQty()
+                    )
+            );
+        }
+        tableRoom.setItems(roomTmList);
+    }
+
+    public void setCellValueFactory(){
+        colId.setCellValueFactory(new PropertyValueFactory<>("roomTypeId"));
+        colType.setCellValueFactory(new PropertyValueFactory<>("roomType"));
+        colPersonsQty.setCellValueFactory(new PropertyValueFactory<>("perRoom"));
+        colKeyMoney.setCellValueFactory(new PropertyValueFactory<>("keyMoney"));
+        colRoomQty.setCellValueFactory(new PropertyValueFactory<>("roomQty"));
+    }
+
+    public RoomDTO getDetailsInTextFields(){
+        RoomDTO roomDTO = new RoomDTO();
+        roomDTO.setPerRoom(Integer.parseInt(txtPersonQty.getText()));
+        roomDTO.setRoomQty(Integer.parseInt(txtRoomQty.getText()));
+        roomDTO.setKeyMoney(txtKeyMoney.getText());
+        roomDTO.setRoomTypeId(txtId.getText());
+        roomDTO.setRoomType(txtType.getText());
+        return roomDTO;
+    }
+
+    void clearTxtFields(){
+        txtPersonQty.setText("");
+        txtRoomQty.setText("");
+        txtKeyMoney.setText("");
+        txtId.setText("");
+        txtType.setText("");
+    }
+
+    public void tableRoomOnMouseClicked(MouseEvent mouseEvent) {
+        TablePosition pos = tableRoom.getSelectionModel().getSelectedCells().get(0);
+        int row = pos.getRow();
+        ObservableList<TableColumn<RoomTM, ?>> columns = tableRoom.getColumns();
+
+        txtId.setText(columns.get(0).getCellData(row).toString());
+        txtType.setText(columns.get(1).getCellData(row).toString());
+        txtPersonQty.setText(columns.get(2).getCellData(row).toString());
+        txtKeyMoney.setText(columns.get(3).getCellData(row).toString());
+        txtRoomQty.setText(columns.get(4).getCellData(row).toString());
+    }
 }

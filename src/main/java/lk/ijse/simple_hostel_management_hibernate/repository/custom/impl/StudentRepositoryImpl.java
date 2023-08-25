@@ -1,7 +1,7 @@
-package lk.ijse.simple_hostel_management_hibernate.repository.impl;
+package lk.ijse.simple_hostel_management_hibernate.repository.custom.impl;
 
 import lk.ijse.simple_hostel_management_hibernate.entity.Student;
-import lk.ijse.simple_hostel_management_hibernate.repository.StudentRepository;
+import lk.ijse.simple_hostel_management_hibernate.repository.custom.StudentRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 

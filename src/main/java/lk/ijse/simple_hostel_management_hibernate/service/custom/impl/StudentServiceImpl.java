@@ -1,20 +1,22 @@
-package lk.ijse.simple_hostel_management_hibernate.service.impl;
+package lk.ijse.simple_hostel_management_hibernate.service.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lk.ijse.simple_hostel_management_hibernate.config.SessionFactoryConfig;
 import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.entity.Student;
-import lk.ijse.simple_hostel_management_hibernate.repository.StudentRepository;
-import lk.ijse.simple_hostel_management_hibernate.repository.impl.StudentRepositoryImpl;
-import lk.ijse.simple_hostel_management_hibernate.service.StudentService;
+import lk.ijse.simple_hostel_management_hibernate.repository.RepositoryFactory;
+import lk.ijse.simple_hostel_management_hibernate.repository.custom.StudentRepository;
+import lk.ijse.simple_hostel_management_hibernate.repository.custom.impl.StudentRepositoryImpl;
+import lk.ijse.simple_hostel_management_hibernate.service.custom.StudentService;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
 public class StudentServiceImpl implements StudentService {
-    StudentRepository studentRepository = new StudentRepositoryImpl();
+    StudentRepository studentRepository = RepositoryFactory.getRepositoryFactory()
+            .getRepository(RepositoryFactory.RepositoryTypes.STUDENT);
 
     public boolean saveStudent(StudentDTO student){
         Session session = SessionFactoryConfig.getInstance().getSession();

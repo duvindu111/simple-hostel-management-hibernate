@@ -40,24 +40,30 @@
             <Font name="Arial Unicode MS" size="13.0" />
          </font>
       </TextField>
-      <TextField fx:id="txtQuantity" layoutX="380.0" layoutY="116.0" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="quantity" style="-fx-background-radius: 15; -fx-background-radius: #ebebeb;">
+      <TextField fx:id="txtRoomQty" layoutX="380.0" layoutY="116.0" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="total no. of rooms" style="-fx-background-radius: 15; -fx-background-radius: #ebebeb;">
          <font>
             <Font name="Arial Unicode MS" size="13.0" />
          </font>
       </TextField>
-      <TableView fx:id="tableStudent" focusTraversable="false" layoutX="380.0" layoutY="284.0" opacity="0.9" prefHeight="404.0" prefWidth="1066.0" style="-fx-background-color: #ebebeb;">
+      <TableView fx:id="tableRoom" focusTraversable="false" layoutX="380.0" layoutY="284.0" onMouseClicked="#tableRoomOnMouseClicked" opacity="0.9" prefHeight="404.0" prefWidth="1066.0" style="-fx-background-color: #ebebeb;">
          <columns>
-            <TableColumn fx:id="colId" prefWidth="193.59994506835938" text="room type id" />
-            <TableColumn fx:id="colType" prefWidth="427.20001220703125" text="room type" />
-            <TableColumn fx:id="colKeyMoney" prefWidth="240.00006103515625" text="key money" />
-            <TableColumn fx:id="colQuantity" prefWidth="204.79998779296875" text="quantity" />
+            <TableColumn fx:id="colId" prefWidth="188.80001831054688" text="room type id" />
+            <TableColumn fx:id="colType" prefWidth="274.39996337890625" text="room type" />
+            <TableColumn fx:id="colPersonsQty" prefWidth="153.5999755859375" text="no.of persons per room" />
+            <TableColumn fx:id="colKeyMoney" prefWidth="307.20001220703125" text="key money" />
+            <TableColumn fx:id="colRoomQty" prefWidth="141.5999755859375" text="no. of rooms" />
          </columns>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </TableView>
-      <JFXButton fx:id="btnDelete" layoutX="1375.0" layoutY="225.0" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 15;" text="delete" />
-      <JFXButton fx:id="btnUpdate" layoutX="1288.0" layoutY="225.0" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 15;" text="update" />
-      <JFXButton fx:id="btnSave" layoutX="1200.0" layoutY="225.0" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 15;" text="save" />
+      <JFXButton fx:id="btnDelete" layoutX="1375.0" layoutY="225.0" onAction="#btnDeleteOnAction" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 15;" text="delete" />
+      <JFXButton fx:id="btnUpdate" layoutX="1288.0" layoutY="225.0" onAction="#btnUpdateOnAction" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 15;" text="update" />
+      <JFXButton fx:id="btnSave" layoutX="1200.0" layoutY="225.0" onAction="#btnSaveOnAction" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 15;" text="save" />
+      <TextField fx:id="txtPersonQty" layoutX="754.0" layoutY="116.0" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="no. of persons per room" style="-fx-background-radius: 15; -fx-background-radius: #ebebeb;">
+         <font>
+            <Font name="Arial Unicode MS" size="13.0" />
+         </font>
+      </TextField>
    </children>
 </AnchorPane>

@@ -17,9 +17,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
 import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
-import lk.ijse.simple_hostel_management_hibernate.entity.Student;
-import lk.ijse.simple_hostel_management_hibernate.service.StudentService;
-import lk.ijse.simple_hostel_management_hibernate.service.impl.StudentServiceImpl;
+import lk.ijse.simple_hostel_management_hibernate.service.ServiceFactory;
+import lk.ijse.simple_hostel_management_hibernate.service.custom.StudentService;
+import lk.ijse.simple_hostel_management_hibernate.service.custom.impl.StudentServiceImpl;
 import lk.ijse.simple_hostel_management_hibernate.view.tm.StudentTM;
 
 public class StudentFormController {
@@ -87,6 +87,8 @@ public class StudentFormController {
     @FXML
     private TextField txtStName;
 
+    StudentService studentService = ServiceFactory.getServiceFactory().getservice(ServiceFactory.ServiceTypes.STUDENT);
+
     @FXML
     void initialize() {
         assert btnBack != null : "fx:id=\"btnBack\" was not injected: check your FXML file 'student_form.fxml'.";
@@ -102,8 +104,6 @@ public class StudentFormController {
         setCellValueFactory();
     }
 
-    StudentService studentService = new StudentServiceImpl();
-
     public StudentDTO getDetailsInTextFields(){
         StudentDTO studentDTO = new StudentDTO();
         studentDTO.setId(txtStId.getText());
@@ -114,6 +114,7 @@ public class StudentFormController {
         studentDTO.setStudentContact(txtContact1.getText());
         return studentDTO;
     }
+
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         StudentDTO studentDTO = getDetailsInTextFields();

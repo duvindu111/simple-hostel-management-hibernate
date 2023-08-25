@@ -2,7 +2,7 @@ package lk.ijse.simple_hostel_management_hibernate.repository;
 
 import java.util.List;
 
-public interface CrudRepository<T,ID>{
+public interface CrudRepository<T,ID> extends SuperRepository{
 
     void save(T entity);
 

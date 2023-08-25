@@ -12,12 +12,14 @@ public class Room {
     @Id
     @Column(name = "room_type_id")
     private String roomTypeId;
-    @Column(name = "type", nullable = false)
+    @Column(name = "type", nullable = false, unique = true)
     private String roomType;
+    @Column(name = "per_room", nullable = false)
+    private int perRoom;
     @Column(name = "key_money", nullable = false)
     private String keyMoney;
-    @Column(name = "qty", nullable = false)
-    private int quantity;
+    @Column(name = "room_qty", nullable = false)
+    private int roomQuantity;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy =  "room")
     private List<Reservation> reservations = new ArrayList<>();
@@ -25,11 +27,13 @@ public class Room {
     public Room() {
     }
 
-    public Room(String roomTypeId, String roomType, String keyMoney, int quantity) {
+    public Room(String roomTypeId, String roomType, int perRoom, String keyMoney, int roomQuantity, List<Reservation> reservations) {
         this.roomTypeId = roomTypeId;
         this.roomType = roomType;
+        this.perRoom = perRoom;
         this.keyMoney = keyMoney;
-        this.quantity = quantity;
+        this.roomQuantity = roomQuantity;
+        this.reservations = reservations;
     }
 
     public String getRoomTypeId() {
@@ -56,12 +60,20 @@ public class Room {
         this.keyMoney = keyMoney;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getPerRoom() {
+        return perRoom;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setPerRoom(int perRoom) {
+        this.perRoom = perRoom;
+    }
+
+    public int getRoomQuantity() {
+        return roomQuantity;
+    }
+
+    public void setRoomQuantity(int roomQuantity) {
+        this.roomQuantity = roomQuantity;
     }
 
     @Override
@@ -69,8 +81,9 @@ public class Room {
         return "Room{" +
                 "roomTypeId='" + roomTypeId + '\'' +
                 ", roomType='" + roomType + '\'' +
+                ", perRoom=" + perRoom +
                 ", keyMoney='" + keyMoney + '\'' +
-                ", quantity=" + quantity +
+                ", roomQuantity=" + roomQuantity +
                 '}';
     }
 }

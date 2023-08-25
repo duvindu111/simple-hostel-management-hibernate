@@ -1,9 +1,10 @@
-package lk.ijse.simple_hostel_management_hibernate.service;
+package lk.ijse.simple_hostel_management_hibernate.service.custom;
 
 import javafx.collections.ObservableList;
 import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
+import lk.ijse.simple_hostel_management_hibernate.service.SuperService;
 
-public interface StudentService {
+public interface StudentService extends SuperService {
 
     public boolean saveStudent(StudentDTO student);
 
