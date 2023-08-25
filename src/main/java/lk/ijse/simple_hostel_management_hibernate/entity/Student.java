@@ -1,6 +1,7 @@
 package lk.ijse.simple_hostel_management_hibernate.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.embedded.StudentContact;
 
 import java.time.LocalDate;
@@ -18,13 +19,8 @@ public class Student {
     private String studentName;
     @Column(name = "st_address", nullable = false, columnDefinition = "Text")
     private String studentAddress;
-    @ElementCollection
-    @CollectionTable(
-            name = "st_contacts",
-            joinColumns = @JoinColumn(name = "st_id")
-    )
-    @Column(name = "st_contacts", nullable = false)
-    private List<StudentContact> studentContacts = new ArrayList<>();
+    @Column(name = "st_contact", nullable = false, unique = true)
+    private String studentContact;
     @Column(name = "st_dob", nullable = false)
     private LocalDate studentDOB;
     @Column(name = "st_gender", nullable = false)
@@ -36,12 +32,11 @@ public class Student {
     public Student() {
     }
 
-    public Student(String studentId, String studentName, String studentAddress,
-                   List<StudentContact> studentContacts, LocalDate studentDOB, String studentGender) {
+    public Student(String studentId, String studentName, String studentAddress, String studentContact, LocalDate studentDOB, String studentGender) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentAddress = studentAddress;
-        this.studentContacts = studentContacts;
+        this.studentContact = studentContact;
         this.studentDOB = studentDOB;
         this.studentGender = studentGender;
     }
@@ -70,12 +65,12 @@ public class Student {
         this.studentAddress = studentAddress;
     }
 
-    public List<StudentContact> getStudentContacts() {
-        return studentContacts;
+    public String getStudentContact() {
+        return studentContact;
     }
 
-    public void setStudentContacts(List<StudentContact> studentContacts) {
-        this.studentContacts = studentContacts;
+    public void setStudentContact(String studentContact) {
+        this.studentContact = studentContact;
     }
 
     public LocalDate getStudentDOB() {
@@ -100,9 +95,20 @@ public class Student {
                 "studentId='" + studentId + '\'' +
                 ", studentName='" + studentName + '\'' +
                 ", studentAddress='" + studentAddress + '\'' +
-                ", studentContacts=" + studentContacts +
+                ", studentContact='" + studentContact + '\'' +
                 ", studentDOB=" + studentDOB +
                 ", studentGender='" + studentGender + '\'' +
                 '}';
+    }
+
+    public StudentDTO toDto() {
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setId(this.studentId);
+        studentDTO.setAddress(this.studentAddress);
+        studentDTO.setDob(this.studentDOB);
+        studentDTO.setGender(this.studentGender);
+        studentDTO.setName(this.studentName);
+        studentDTO.setStudentContact(this.studentContact);
+        return studentDTO;
     }
 }

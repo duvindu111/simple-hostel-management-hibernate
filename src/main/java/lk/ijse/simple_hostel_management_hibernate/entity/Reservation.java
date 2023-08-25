@@ -19,7 +19,7 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private KeyMoneyStatus reservationStatus;
 
-    enum KeyMoneyStatus {
+    public enum KeyMoneyStatus {
         PAID,
         NOT_PAID
     }

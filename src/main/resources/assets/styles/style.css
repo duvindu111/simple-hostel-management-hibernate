@@ -1,0 +1,4 @@
+/* styles.css */
+.gradient-anchorpane {
+    -fx-background-color: linear-gradient(to bottom, #03172b, #000a12);
+}
