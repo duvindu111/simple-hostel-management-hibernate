@@ -88,47 +88,46 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Integer> saveReservation(ReservationDTO reservationDTO) {
+    public boolean saveReservation(ReservationDTO reservationDTO) {
         Session session = SessionFactoryConfig.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try {
             reservationRepository.setSession(session);
             reservationRepository.save(reservationDTO.toEntity());
 
-            List<Integer> returnList = updateAvailableRooms(reservationDTO);
+            updateAvailableRooms(reservationDTO);
 
             transaction.commit();
             session.close();
-            return returnList;
+            return true;
         } catch (Exception e) {
             transaction.rollback();
             e.printStackTrace();
             session.close();
             System.out.println("reservation saving process failed");
             System.out.println(e);
-            return null;
+            return false;
         }
     }
 
-    public List<Integer> updateAvailableRooms(ReservationDTO reservationDTO){
-        int count = reservationRepository.getReservationCount(reservationDTO.toEntity());
-
-        List<Object[]> list = reservationRepository.getMaxPersonsPerRoom(reservationDTO.toEntity());
-        Object[] result = list.get(0);
-        int perRoom = (Integer) result[0];
-        int roomQuantity = (Integer) result[1];
-
-        int unavailable_rooms = count / perRoom;
-        int perInOtherAvailableRoom = count % perRoom;
-        int available_rooms = roomQuantity - unavailable_rooms;
-
+    public void updateAvailableRooms(ReservationDTO reservationDTO){
         String roomTypeId = reservationDTO.toEntity().getReservationPK().getRoomTypeId();
-        reservationRepository.updateAvailableRooms(available_rooms, roomTypeId);
+        try {
+            int count = reservationRepository.getReservationCount(roomTypeId);
 
-        List<Integer> returnList = new ArrayList<>();
-        returnList.add(available_rooms);
-        returnList.add(perInOtherAvailableRoom);
-        return returnList;
+            List<Object[]> list = reservationRepository.getMaxPersonsPerRoom(roomTypeId);
+            Object[] result = list.get(0);
+            int perRoom = (Integer) result[0];
+            int roomQuantity = (Integer) result[1];
+
+            int unavailable_rooms = count / perRoom;
+            int available_rooms = roomQuantity - unavailable_rooms;
+
+            reservationRepository.updateAvailableRooms(available_rooms, roomTypeId);
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("updateAvailableRooms failed");
+        }
     }
 
     @Override
@@ -151,24 +150,55 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Integer> deleteReservation(ReservationDTO reservationDTO) {
+    public boolean deleteReservation(ReservationDTO reservationDTO) {
         Session session = SessionFactoryConfig.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try {
             reservationRepository.setSession(session);
             reservationRepository.delete(reservationDTO.toEntity());
 
-            List<Integer> returnList = updateAvailableRooms(reservationDTO);
+            updateAvailableRooms(reservationDTO);
 
             transaction.commit();
             session.close();
-            return returnList;
+            return true;
         } catch (Exception e) {
             transaction.rollback();
             session.close();
             e.printStackTrace();
             System.out.println("reservation deletion process failed");
             System.out.println(e);
+            return false;
+        }
+    }
+
+    @Override
+    public List<Integer> getAvailableRoomsCount(String roomTypeId) {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            reservationRepository.setSession(session);
+            int count = reservationRepository.getReservationCount(roomTypeId);
+
+            List<Object[]> list = reservationRepository.getMaxPersonsPerRoom(roomTypeId);
+            Object[] result = list.get(0);
+            int perRoom = (Integer) result[0];
+            int roomQuantity = (Integer) result[1];
+
+            int unavailable_rooms = count / perRoom;
+            int perInOtherAvailableRoom = count % perRoom;
+            int available_rooms = roomQuantity - unavailable_rooms;
+
+            List<Integer> returnList = new ArrayList<>();
+            returnList.add(available_rooms);
+            returnList.add(perInOtherAvailableRoom);
+            return returnList;
+        } catch (Exception e) {
+            transaction.rollback();
+            session.close();
+            System.out.println("getAvailableRoomsCount failed");
+            System.out.println(e);
+            e.printStackTrace();
             return null;
         }
     }

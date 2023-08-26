@@ -83,6 +83,12 @@ public class ReservationFormController {
     @FXML
     private TextField txtResId;
 
+    @FXML
+    private Label lblExtraPersons;
+
+    @FXML
+    private Label lblRoomAvailability;
+
     ReservationService reservationService = ServiceFactory.getServiceFactory().getservice(ServiceFactory.ServiceTypes.RESERVATION);
 
     @FXML
@@ -159,12 +165,8 @@ public class ReservationFormController {
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
         ReservationDTO reservationDTO = getDetailsInTextFields();
-        List<Integer> list = reservationService.deleteReservation(reservationDTO);
-        if(!list.isEmpty()){
-            System.out.println(list.get(0));
-            System.out.println(list.get(1));
-            int availableRooms = (Integer) list.get(0);
-            int perInOtherRoom = (Integer) list.get(1);
+        boolean success = reservationService.deleteReservation(reservationDTO);
+        if(success){
             AlertController.confirmmessage("reservation details deleted successfully");
             setDataToTableView();
             clearTxtFields();
@@ -187,12 +189,8 @@ public class ReservationFormController {
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
         ReservationDTO reservationDTO = getDetailsInTextFields();
-        List<Integer> list = reservationService.saveReservation(reservationDTO);
-        if(!list.isEmpty()){
-            System.out.println(list.get(0));
-            System.out.println(list.get(1));
-            int availableRooms = (Integer) list.get(0);
-            int perInOtherRoom = (Integer) list.get(1);
+        boolean success = reservationService.saveReservation(reservationDTO);
+        if(success){
             AlertController.confirmmessage("reservation details saved successfully");
             setDataToTableView();
             clearTxtFields();
@@ -242,5 +240,29 @@ public class ReservationFormController {
         colStId.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         colRoomTypeId.setCellValueFactory(new PropertyValueFactory<>("roomTypeId"));
         colPaymentStatus.setCellValueFactory(new PropertyValueFactory<>("paymentStatus"));
+    }
+
+    public void cmbRoomTypeIdOnAction(ActionEvent actionEvent) {
+        String roomTypeId = cmbRoomTypeId.getValue();
+
+        if(!roomTypeId.isEmpty()) {
+            List<Integer> list = reservationService.getAvailableRoomsCount(roomTypeId);
+
+            if (!list.isEmpty()) {
+                System.out.println(list.get(0));
+                System.out.println(list.get(1));
+                int availableRooms = (Integer) list.get(0);
+                int perInOtherRoom = (Integer) list.get(1);
+
+                lblRoomAvailability.setText(availableRooms + " rooms available");
+                lblRoomAvailability.setVisible(true);
+
+                lblExtraPersons.setText("there is a room with " + perInOtherRoom + " persons already in it");
+                lblExtraPersons.setVisible(true);
+            }
+        } else {
+            lblRoomAvailability.setVisible(false);
+            lblExtraPersons.setVisible(false);
+        }
     }
 }
