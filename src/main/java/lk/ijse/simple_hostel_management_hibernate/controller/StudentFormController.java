@@ -1,6 +1,8 @@
 package lk.ijse.simple_hostel_management_hibernate.controller;
 
 import com.jfoenix.controls.JFXButton;
+
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -9,6 +11,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -204,4 +208,9 @@ public class StudentFormController {
         cmbGender.setValue("");
     }
 
+    public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
+        Parent load = FXMLLoader.load(getClass().getResource("/view/home_form.fxml"));
+        studentFormAncPane.getChildren().clear();
+        studentFormAncPane.getChildren().add(load);
+    }
 }

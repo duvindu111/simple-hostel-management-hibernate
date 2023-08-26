@@ -1,6 +1,6 @@
 package lk.ijse.simple_hostel_management_hibernate.embedded;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 
 @Embeddable
 public class StudentContact {

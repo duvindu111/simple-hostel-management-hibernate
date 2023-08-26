@@ -6,6 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
@@ -22,6 +24,7 @@ import lk.ijse.simple_hostel_management_hibernate.service.custom.RoomService;
 import lk.ijse.simple_hostel_management_hibernate.view.tm.RoomTM;
 import lk.ijse.simple_hostel_management_hibernate.view.tm.StudentTM;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class RoomFormController{
@@ -54,7 +57,7 @@ public class RoomFormController{
     private TableColumn<?, ?> colType;
 
     @FXML
-    private AnchorPane studentFormAncPane;
+    private AnchorPane roomFormAncPane;
 
     @FXML
     private TableView<RoomTM> tableRoom;
@@ -85,7 +88,6 @@ public class RoomFormController{
         assert colId != null : "fx:id=\"colId\" was not injected: check your FXML file 'room_form.fxml'.";
         assert colKeyMoney != null : "fx:id=\"colKeyMoney\" was not injected: check your FXML file 'room_form.fxml'.";
         assert colType != null : "fx:id=\"colType\" was not injected: check your FXML file 'room_form.fxml'.";
-        assert studentFormAncPane != null : "fx:id=\"studentFormAncPane\" was not injected: check your FXML file 'room_form.fxml'.";
         assert txtId != null : "fx:id=\"txtId\" was not injected: check your FXML file 'room_form.fxml'.";
         assert txtKeyMoney != null : "fx:id=\"txtKeyMoney\" was not injected: check your FXML file 'room_form.fxml'.";
         assert txtType != null : "fx:id=\"txtType\" was not injected: check your FXML file 'room_form.fxml'.";
@@ -187,5 +189,11 @@ public class RoomFormController{
         txtPersonQty.setText(columns.get(2).getCellData(row).toString());
         txtKeyMoney.setText(columns.get(3).getCellData(row).toString());
         txtRoomQty.setText(columns.get(4).getCellData(row).toString());
+    }
+
+    public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
+        Parent load = FXMLLoader.load(getClass().getResource("/view/home_form.fxml"));
+        roomFormAncPane.getChildren().clear();
+        roomFormAncPane.getChildren().add(load);
     }
 }

@@ -1,16 +1,15 @@
 package lk.ijse.simple_hostel_management_hibernate.embedded;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Embeddable
 public class ReservationPK implements Serializable {
 
-    @Column(name = "st_id", nullable = false)
+    @Column(name = "st_id", unique = true)
     private String studentId;
-    @Column(name = "room_type_id", nullable = false)
+    @Column(name = "room_type_id")
     private String roomTypeId;
 
     public ReservationPK() {

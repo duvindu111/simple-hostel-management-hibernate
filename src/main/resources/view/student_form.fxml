@@ -19,7 +19,7 @@
             <Font name="Eras Bold ITC" size="31.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="49.0" layoutY="722.0" opacity="0.8" prefHeight="36.0" prefWidth="118.0" style="-fx-background-radius: 5; -fx-background-color: #ebebeb;" text="Back">
+      <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="49.0" layoutY="722.0" onAction="#btnBackOnAction" opacity="0.8" prefHeight="36.0" prefWidth="118.0" style="-fx-background-radius: 5; -fx-background-color: #ebebeb;" text="Back">
          <font>
             <Font name="Arial" size="13.0" />
          </font>

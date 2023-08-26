@@ -1,28 +1,22 @@
 package lk.ijse.simple_hostel_management_hibernate.entity;
 
-import jakarta.persistence.*;
 import lk.ijse.simple_hostel_management_hibernate.embedded.ReservationPK;
 
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "reservation")
-public class Reservation {
+public class Reservation{
 
-    @Column(name = "res_id", nullable = false, unique = true)
+    @Column(name = "res_id", unique = true, nullable = false)
     private String reservationId;
     @Column(name = "date", nullable = false)
     private LocalDate reservationDate;
     @EmbeddedId
     private ReservationPK reservationPK;
     @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private KeyMoneyStatus reservationStatus;
-
-    public enum KeyMoneyStatus {
-        PAID,
-        NOT_PAID
-    }
+    private String reservationStatus;
 
     @ManyToOne
     @JoinColumn(name = "st_id",
@@ -41,8 +35,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String reservationId, LocalDate reservationDate, ReservationPK reservationPK,
-                       KeyMoneyStatus reservationStatus) {
+    public Reservation(String reservationId, LocalDate reservationDate, ReservationPK reservationPK, String reservationStatus) {
         this.reservationId = reservationId;
         this.reservationDate = reservationDate;
         this.reservationPK = reservationPK;
@@ -73,11 +66,11 @@ public class Reservation {
         this.reservationPK = reservationPK;
     }
 
-    public KeyMoneyStatus getReservationStatus() {
+    public String getReservationStatus() {
         return reservationStatus;
     }
 
-    public void setReservationStatus(KeyMoneyStatus reservationStatus) {
+    public void setReservationStatus(String reservationStatus) {
         this.reservationStatus = reservationStatus;
     }
 

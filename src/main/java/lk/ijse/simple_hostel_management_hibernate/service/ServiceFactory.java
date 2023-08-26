@@ -3,6 +3,7 @@ package lk.ijse.simple_hostel_management_hibernate.service;
 import lk.ijse.simple_hostel_management_hibernate.repository.RepositoryFactory;
 import lk.ijse.simple_hostel_management_hibernate.repository.SuperRepository;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.impl.StudentRepositoryImpl;
+import lk.ijse.simple_hostel_management_hibernate.service.custom.impl.ReservationServiceImpl;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.impl.RoomServiceImpl;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.impl.StudentServiceImpl;
 
@@ -28,6 +29,8 @@ public class ServiceFactory {
                 return (T)new StudentServiceImpl();
             case ROOM:
                 return (T)new RoomServiceImpl();
+            case RESERVATION:
+                return (T)new ReservationServiceImpl();
             default:
                 return null;
         }

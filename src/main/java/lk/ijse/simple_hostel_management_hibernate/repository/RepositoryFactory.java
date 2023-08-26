@@ -1,5 +1,6 @@
 package lk.ijse.simple_hostel_management_hibernate.repository;
 
+import lk.ijse.simple_hostel_management_hibernate.repository.custom.impl.ReservationRepositoryImpl;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.impl.RoomRepositoryImpl;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.impl.StudentRepositoryImpl;
 
@@ -25,6 +26,8 @@ public class RepositoryFactory {
                 return (T)new StudentRepositoryImpl();
             case ROOM:
                 return (T)new RoomRepositoryImpl();
+            case RESERVATION:
+                return (T)new ReservationRepositoryImpl();
             default:
                 return null;
         }

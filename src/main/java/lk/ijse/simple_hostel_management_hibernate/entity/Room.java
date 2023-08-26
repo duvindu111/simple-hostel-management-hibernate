@@ -1,5 +1,6 @@
 package lk.ijse.simple_hostel_management_hibernate.entity;
 
+
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class Room {
     private String keyMoney;
     @Column(name = "room_qty", nullable = false)
     private int roomQuantity;
+    @Column(name = "available_room_qty", nullable = true)
+    private int availableRooms;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy =  "room")
     private List<Reservation> reservations = new ArrayList<>();
@@ -74,6 +77,14 @@ public class Room {
 
     public void setRoomQuantity(int roomQuantity) {
         this.roomQuantity = roomQuantity;
+    }
+
+    public int getAvailableRooms() {
+        return availableRooms;
+    }
+
+    public void setAvailableRooms(int availableRooms) {
+        this.availableRooms = availableRooms;
     }
 
     @Override

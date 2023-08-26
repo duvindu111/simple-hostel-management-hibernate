@@ -19,6 +19,7 @@ public class RoomServiceImpl implements RoomService {
 
     RoomRepository roomRepository = RepositoryFactory.getRepositoryFactory().getRepository
             (RepositoryFactory.RepositoryTypes.ROOM);
+
     @Override
     public boolean saveRoomType(RoomDTO roomDTO) {
         Session session = SessionFactoryConfig.getInstance().getSession();
