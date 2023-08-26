@@ -2,6 +2,7 @@ package lk.ijse.simple_hostel_management_hibernate.service.custom;
 
 import javafx.collections.ObservableList;
 import lk.ijse.simple_hostel_management_hibernate.dto.ReservationDTO;
+import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.service.SuperService;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface ReservationService extends SuperService {
     boolean deleteReservation(ReservationDTO reservationDTO);
 
     List<Integer> getAvailableRoomsCount(String roomTypeId);
+
+    StudentDTO getStudentbyResId(String text);
 }

@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lk.ijse.simple_hostel_management_hibernate.config.SessionFactoryConfig;
 import lk.ijse.simple_hostel_management_hibernate.dto.ReservationDTO;
+import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.entity.Reservation;
+import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.repository.RepositoryFactory;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.ReservationRepository;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.ReservationService;
@@ -193,6 +195,31 @@ public class ReservationServiceImpl implements ReservationService {
             returnList.add(available_rooms);
             returnList.add(perInOtherAvailableRoom);
             return returnList;
+        } catch (Exception e) {
+            transaction.rollback();
+            session.close();
+            System.out.println("getAvailableRoomsCount failed");
+            System.out.println(e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public StudentDTO getStudentbyResId(String resId) {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            reservationRepository.setSession(session);
+            Student student = reservationRepository.getStudentbyResId(resId);
+            return new StudentDTO(
+                student.getStudentId(),
+                student.getStudentAddress(),
+                student.getStudentDOB(),
+                student.getStudentGender(),
+                student.getStudentName(),
+                student.getStudentContact()
+            );
         } catch (Exception e) {
             transaction.rollback();
             session.close();

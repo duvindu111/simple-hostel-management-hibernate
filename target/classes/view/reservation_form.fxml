@@ -3,13 +3,17 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="reservationFormAncPane" prefHeight="800.0" prefWidth="1500.0" styleClass="gradient-anchorpane" stylesheets="@../assets/styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.simple_hostel_management_hibernate.controller.ReservationFormController">
@@ -32,7 +36,7 @@
             <Font name="Arial Unicode MS" size="13.0" />
          </font>
       </TextField>
-      <TableView fx:id="tableReservation" focusTraversable="false" layoutX="380.0" layoutY="284.0" onMouseClicked="#tableReservationOnMouseClicked" opacity="0.9" prefHeight="404.0" prefWidth="1066.0" style="-fx-background-color: #ebebeb;">
+      <TableView fx:id="tableReservation" focusTraversable="false" layoutX="380.0" layoutY="284.0" onMouseClicked="#tableReservationOnMouseClicked" opacity="0.9" prefHeight="403.0" prefWidth="1066.0" style="-fx-background-color: #ebebeb;">
          <columns>
             <TableColumn fx:id="colResId" prefWidth="146.39993286132812" text="reservation id" />
             <TableColumn fx:id="colDate" prefWidth="204.7999267578125" text="date" />
@@ -73,5 +77,42 @@
             <Font name="System Italic" size="12.0" />
          </font>
       </Label>
+      <JFXButton fx:id="btnAddNew" layoutX="182.0" layoutY="722.0" onAction="#btnAddNewOnAction" prefHeight="38.0" prefWidth="138.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 5;" text="+ Add New Student">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="380.0" layoutY="714.0" text="Get student details :" textFill="WHITE" />
+      <TextField fx:id="txtEnterResId" layoutX="380.0" layoutY="735.0" prefHeight="26.0" prefWidth="138.0" promptText="Enter Reservation ID" />
+      <ImageView fx:id="icnSearch" fitHeight="30.0" fitWidth="30.0" layoutX="531.0" layoutY="733.0" onMouseClicked="#icnSearchOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/images/search.png" />
+         </image>
+      </ImageView>
+      <Group fx:id="grpGetStByResId" layoutX="379.0" layoutY="541.0" visible="false">
+         <children>
+            <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#ebebeb" height="221.0" stroke="#03172b" strokeType="INSIDE" strokeWidth="3.0" width="608.0" />
+            <Label layoutX="42.0" layoutY="29.0" text="Student ID: " />
+            <Label layoutX="42.0" layoutY="87.0" text="Student Name: " />
+            <Label layoutX="42.0" layoutY="149.0" text="Student Address: " />
+            <Label layoutX="318.0" layoutY="29.0" text="Contact No: " />
+            <Label layoutX="318.0" layoutY="87.0" text="Date of Birth: " />
+            <Label layoutX="318.0" layoutY="149.0" text="Gender: " />
+            <Label fx:id="lblStId" layoutX="42.0" layoutY="49.0" />
+            <Label fx:id="lblStName" layoutX="43.0" layoutY="108.0" />
+            <Label fx:id="lblStAddress" layoutX="43.0" layoutY="170.0" />
+            <Label fx:id="lblContactNo" layoutX="319.0" layoutY="49.0" />
+            <Label fx:id="lblDateOfBirth" layoutX="319.0" layoutY="108.0" />
+            <Label fx:id="lblGender" layoutX="319.0" layoutY="170.0" />
+            <ImageView fx:id="icnClose" fitHeight="30.0" fitWidth="38.0" layoutX="565.0" layoutY="11.0" onMouseClicked="#icnCloseOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/images/close.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </Group>
    </children>
 </AnchorPane>

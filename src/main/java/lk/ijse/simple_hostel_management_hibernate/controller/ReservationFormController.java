@@ -13,15 +13,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
 import lk.ijse.simple_hostel_management_hibernate.dto.ReservationDTO;
+import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.service.ServiceFactory;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.ReservationService;
 import lk.ijse.simple_hostel_management_hibernate.view.tm.ReservationTM;
@@ -46,6 +50,9 @@ public class ReservationFormController {
 
     @FXML
     private JFXButton btnUpdate;
+
+    @FXML
+    private JFXButton btnAddNew;
 
     @FXML
     private ComboBox<String> cmbPaymentStatus;
@@ -84,10 +91,37 @@ public class ReservationFormController {
     private TextField txtResId;
 
     @FXML
+    private Group grpGetStByResId;
+
+    @FXML
+    private ImageView icnClose;
+
+    @FXML
+    private Label lblContactNo;
+
+    @FXML
+    private Label lblDateOfBirth;
+
+    @FXML
     private Label lblExtraPersons;
 
     @FXML
+    private Label lblGender;
+
+    @FXML
     private Label lblRoomAvailability;
+
+    @FXML
+    private Label lblStAddress;
+
+    @FXML
+    private Label lblStId;
+
+    @FXML
+    private Label lblStName;
+
+    @FXML
+    private TextField txtEnterResId;
 
     ReservationService reservationService = ServiceFactory.getServiceFactory().getservice(ServiceFactory.ServiceTypes.RESERVATION);
 
@@ -257,12 +291,75 @@ public class ReservationFormController {
                 lblRoomAvailability.setText(availableRooms + " rooms available");
                 lblRoomAvailability.setVisible(true);
 
-                lblExtraPersons.setText("there is a room with " + perInOtherRoom + " persons already in it");
-                lblExtraPersons.setVisible(true);
+                if(availableRooms!=0) {
+                    if(availableRooms==1){
+                        lblRoomAvailability.setText("1 room available");
+                        lblRoomAvailability.setVisible(true);
+                        lblRoomAvailability.setStyle("-fx-text-fill: white");
+                        btnSave.setDisable(false);
+                    }else{
+                        lblRoomAvailability.setText(availableRooms + " rooms available");
+                        lblRoomAvailability.setVisible(true);
+                        lblRoomAvailability.setStyle("-fx-text-fill: white");
+                        btnSave.setDisable(false);
+                    }
+                }else{
+                    lblRoomAvailability.setText("*no rooms available*");
+                    lblRoomAvailability.setVisible(true);
+                    lblRoomAvailability.setStyle("-fx-text-fill: red");
+                    btnSave.setDisable(true);
+                }
+
+                if(perInOtherRoom!=0) {
+                    if(perInOtherRoom==1){
+                        lblExtraPersons.setText("there is a room with 1 person already in it");
+                        lblExtraPersons.setVisible(true);
+                    }else{
+                        lblExtraPersons.setText("there is a room with " + perInOtherRoom + " persons already in it");
+                        lblExtraPersons.setVisible(true);
+                    }
+                }else{
+                    lblExtraPersons.setVisible(false);
+                }
             }
         } else {
             lblRoomAvailability.setVisible(false);
             lblExtraPersons.setVisible(false);
         }
+    }
+
+    public void btnAddNewOnAction(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        stage.resizableProperty().setValue(false);
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/popup_student_form.fxml"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.centerOnScreen();
+        stage.show();
+    }
+
+    public void icnSearchOnMouseClicked(MouseEvent mouseEvent) {
+        StudentDTO studentDTO = reservationService.getStudentbyResId(txtEnterResId.getText());
+
+        lblStId.setText(studentDTO.getId());
+        lblStName.setText(studentDTO.getName());
+        lblStAddress.setText(studentDTO.getAddress());
+        lblContactNo.setText(studentDTO.getStudentContact());
+        lblDateOfBirth.setText(studentDTO.getDob().toString());
+        lblGender.setText(studentDTO.getGender());
+
+        grpGetStByResId.setVisible(true);
+    }
+
+    public void icnCloseOnMouseClicked(MouseEvent mouseEvent) {
+        lblStId.setText("");
+        lblStName.setText("");
+        lblStAddress.setText("");
+        lblContactNo.setText("");
+        lblDateOfBirth.setText("");
+        lblGender.setText("");
+        grpGetStByResId.setVisible(false);
     }
 }

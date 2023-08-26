@@ -1,6 +1,7 @@
 package lk.ijse.simple_hostel_management_hibernate.repository.custom.impl;
 
 import lk.ijse.simple_hostel_management_hibernate.entity.Reservation;
+import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.ReservationRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -54,6 +55,19 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         query.setParameter("available_room_qty", available_rooms);
         query.setParameter("room_type_id", roomTypeId);
         query.executeUpdate();
+    }
+
+    @Override
+    public Student getStudentbyResId(String resId) {
+        String sql = "SELECT s " +
+                "FROM Student s " +
+                "INNER JOIN Reservation r " +
+                "ON s.studentId=r.reservationPK.studentId " +
+                "WHERE r.reservationId= :res_id ";
+        Query query = session.createQuery(sql);
+        query.setParameter("res_id", resId);
+        Student student = (Student) query.getSingleResult();
+        return student;
     }
 
     @Override
