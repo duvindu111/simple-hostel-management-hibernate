@@ -159,8 +159,12 @@ public class ReservationFormController {
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
         ReservationDTO reservationDTO = getDetailsInTextFields();
-        boolean success = reservationService.deleteReservation(reservationDTO);
-        if(success){
+        List<Integer> list = reservationService.deleteReservation(reservationDTO);
+        if(!list.isEmpty()){
+            System.out.println(list.get(0));
+            System.out.println(list.get(1));
+            int availableRooms = (Integer) list.get(0);
+            int perInOtherRoom = (Integer) list.get(1);
             AlertController.confirmmessage("reservation details deleted successfully");
             setDataToTableView();
             clearTxtFields();
@@ -183,8 +187,12 @@ public class ReservationFormController {
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
         ReservationDTO reservationDTO = getDetailsInTextFields();
-        boolean success = reservationService.saveReservation(reservationDTO);
-        if(success){
+        List<Integer> list = reservationService.saveReservation(reservationDTO);
+        if(!list.isEmpty()){
+            System.out.println(list.get(0));
+            System.out.println(list.get(1));
+            int availableRooms = (Integer) list.get(0);
+            int perInOtherRoom = (Integer) list.get(1);
             AlertController.confirmmessage("reservation details saved successfully");
             setDataToTableView();
             clearTxtFields();

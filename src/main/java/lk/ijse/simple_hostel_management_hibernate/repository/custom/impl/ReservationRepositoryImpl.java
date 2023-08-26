@@ -38,6 +38,23 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         return (int) count;
     }
 
+    @Override
+    public List getMaxPersonsPerRoom(Reservation toEntity) {
+        String sql = "SELECT r.perRoom,r.roomQuantity FROM Room r WHERE r.roomTypeId = :room_type_id";
+        Query query = session.createQuery(sql);
+        query.setParameter("room_type_id", toEntity.getReservationPK().getRoomTypeId());
+        List list = (List) query.list();
+        return list;
+    }
+
+    @Override
+    public void updateAvailableRooms(int available_rooms, String roomTypeId) {
+        String sql = "UPDATE Room r SET r.availableRooms = :available_room_qty WHERE r.roomTypeId= :room_type_id";
+        Query query = session.createQuery(sql);
+        query.setParameter("available_room_qty", available_rooms);
+        query.setParameter("room_type_id", roomTypeId);
+        query.executeUpdate();
+    }
 
     @Override
     public void save(Reservation entity) {

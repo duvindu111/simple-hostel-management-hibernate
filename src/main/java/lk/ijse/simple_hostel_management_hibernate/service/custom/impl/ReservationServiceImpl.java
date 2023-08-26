@@ -11,6 +11,7 @@ import lk.ijse.simple_hostel_management_hibernate.service.custom.ReservationServ
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationServiceImpl implements ReservationService {
@@ -87,38 +88,60 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public boolean saveReservation(ReservationDTO reservationDTO) {
+    public List<Integer> saveReservation(ReservationDTO reservationDTO) {
         Session session = SessionFactoryConfig.getInstance().getSession();
-        Transaction transaction =session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
         try {
             reservationRepository.setSession(session);
             reservationRepository.save(reservationDTO.toEntity());
-            int count = reservationRepository.getReservationCount(reservationDTO.toEntity());
-            System.out.println("count "+count);
+
+            List<Integer> returnList = updateAvailableRooms(reservationDTO);
+
             transaction.commit();
             session.close();
-            return true;
-        }catch (Exception e){
+            return returnList;
+        } catch (Exception e) {
             transaction.rollback();
             e.printStackTrace();
             session.close();
             System.out.println("reservation saving process failed");
             System.out.println(e);
-            return false;
+            return null;
         }
+    }
+
+    public List<Integer> updateAvailableRooms(ReservationDTO reservationDTO){
+        int count = reservationRepository.getReservationCount(reservationDTO.toEntity());
+
+        List<Object[]> list = reservationRepository.getMaxPersonsPerRoom(reservationDTO.toEntity());
+        Object[] result = list.get(0);
+        int perRoom = (Integer) result[0];
+        int roomQuantity = (Integer) result[1];
+
+        int unavailable_rooms = count / perRoom;
+        int perInOtherAvailableRoom = count % perRoom;
+        int available_rooms = roomQuantity - unavailable_rooms;
+
+        String roomTypeId = reservationDTO.toEntity().getReservationPK().getRoomTypeId();
+        reservationRepository.updateAvailableRooms(available_rooms, roomTypeId);
+
+        List<Integer> returnList = new ArrayList<>();
+        returnList.add(available_rooms);
+        returnList.add(perInOtherAvailableRoom);
+        return returnList;
     }
 
     @Override
     public boolean updateReservation(ReservationDTO reservationDTO) {
         Session session = SessionFactoryConfig.getInstance().getSession();
-        Transaction transaction =session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
         try {
             reservationRepository.setSession(session);
             reservationRepository.update(reservationDTO.toEntity());
             transaction.commit();
             session.close();
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             transaction.rollback();
             session.close();
             System.out.println("reservation updating process failed");
@@ -128,22 +151,25 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public boolean deleteReservation(ReservationDTO reservationDTO) {
+    public List<Integer> deleteReservation(ReservationDTO reservationDTO) {
         Session session = SessionFactoryConfig.getInstance().getSession();
-        Transaction transaction =session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
         try {
             reservationRepository.setSession(session);
             reservationRepository.delete(reservationDTO.toEntity());
+
+            List<Integer> returnList = updateAvailableRooms(reservationDTO);
+
             transaction.commit();
             session.close();
-            return true;
-        }catch (Exception e){
+            return returnList;
+        } catch (Exception e) {
             transaction.rollback();
             session.close();
             e.printStackTrace();
             System.out.println("reservation deletion process failed");
             System.out.println(e);
-            return false;
+            return null;
         }
     }
 }

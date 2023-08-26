@@ -14,9 +14,9 @@ public interface ReservationService extends SuperService {
 
     ObservableList<ReservationDTO> getDetailsToTableView();
 
-    boolean saveReservation(ReservationDTO reservationDTO);
+    List<Integer> saveReservation(ReservationDTO reservationDTO);
 
     boolean updateReservation(ReservationDTO reservationDTO);
 
-    boolean deleteReservation(ReservationDTO reservationDTO);
+    List<Integer> deleteReservation(ReservationDTO reservationDTO);
 }
