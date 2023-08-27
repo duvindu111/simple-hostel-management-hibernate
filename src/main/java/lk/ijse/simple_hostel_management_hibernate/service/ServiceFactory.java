@@ -3,10 +3,7 @@ package lk.ijse.simple_hostel_management_hibernate.service;
 import lk.ijse.simple_hostel_management_hibernate.repository.RepositoryFactory;
 import lk.ijse.simple_hostel_management_hibernate.repository.SuperRepository;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.impl.StudentRepositoryImpl;
-import lk.ijse.simple_hostel_management_hibernate.service.custom.impl.KeyMoneyStudentServiceImpl;
-import lk.ijse.simple_hostel_management_hibernate.service.custom.impl.ReservationServiceImpl;
-import lk.ijse.simple_hostel_management_hibernate.service.custom.impl.RoomServiceImpl;
-import lk.ijse.simple_hostel_management_hibernate.service.custom.impl.StudentServiceImpl;
+import lk.ijse.simple_hostel_management_hibernate.service.custom.impl.*;
 
 public class ServiceFactory {
 
@@ -21,7 +18,7 @@ public class ServiceFactory {
     }
 
     public enum ServiceTypes{
-        STUDENT,ROOM,RESERVATION,KEY_MONEY_STUDENT
+        STUDENT,ROOM,RESERVATION,KEY_MONEY_STUDENT,HOME
     }
 
     public <T extends SuperService>T getservice(ServiceTypes type){
@@ -34,6 +31,8 @@ public class ServiceFactory {
                 return (T)new ReservationServiceImpl();
             case KEY_MONEY_STUDENT:
                 return (T)new KeyMoneyStudentServiceImpl();
+            case HOME:
+                return (T)new HomeServiceImpl();
             default:
                 return null;
         }

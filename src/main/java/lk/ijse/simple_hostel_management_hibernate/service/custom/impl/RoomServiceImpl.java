@@ -26,7 +26,9 @@ public class RoomServiceImpl implements RoomService {
         Transaction transaction =session.beginTransaction();
         try {
             roomRepository.setSession(session);
-            roomRepository.save(roomDTO.toEntity());
+            Room entity = roomDTO.toEntity();
+            entity.setAvailableRooms(roomDTO.getRoomQty());
+            roomRepository.save(entity);
             transaction.commit();
             session.close();
             return true;

@@ -1,30 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="homeFormAncPane" prefHeight="800.0" prefWidth="1500.0" styleClass="gradient-anchorpane" stylesheets="@../assets/styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.simple_hostel_management_hibernate.controller.HomeFormController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="75.0" nodeOrientation="LEFT_TO_RIGHT" opacity="0.8" prefHeight="644.0" prefWidth="272.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 5;" text="Hostel Management System" textAlignment="CENTER" wrapText="true">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="75.0" nodeOrientation="LEFT_TO_RIGHT" opacity="0.8" prefHeight="644.0" prefWidth="272.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 5;" text="D24 Hostel Management System" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Eras Bold ITC" size="33.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnStudent" layoutX="420.0" layoutY="246.0" onAction="#btnStudentOnAction" opacity="0.9" prefHeight="51.0" prefWidth="379.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 5;" text="Student Management">
+      <JFXButton fx:id="btnStudent" layoutX="390.0" layoutY="78.0" onAction="#btnStudentOnAction" opacity="0.9" prefHeight="51.0" prefWidth="320.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 5;" text="Student Management">
          <font>
             <Font name="Eras Bold ITC" size="22.0" />
          </font></JFXButton>
-      <JFXButton fx:id="btnRoom" layoutX="420.0" layoutY="336.0" onAction="#btnRoomOnAction" opacity="0.9" prefHeight="51.0" prefWidth="379.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 5;" text="Room Management">
+      <JFXButton fx:id="btnRoom" layoutX="748.0" layoutY="78.0" onAction="#btnRoomOnAction" opacity="0.9" prefHeight="51.0" prefWidth="320.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 5;" text="Room Management">
          <font>
             <Font name="Eras Bold ITC" size="22.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnReservation" layoutX="420.0" layoutY="428.0" onAction="#btnReservationOnAction" opacity="0.9" prefHeight="51.0" prefWidth="379.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 5;" text="Reservation Management">
+      <JFXButton fx:id="btnReservation" layoutX="1106.0" layoutY="78.0" onAction="#btnReservationOnAction" opacity="0.9" prefHeight="51.0" prefWidth="320.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 5;" text="Reservation Management">
          <font>
             <Font name="Eras Bold ITC" size="22.0" />
          </font>
       </JFXButton>
+      <TableView fx:id="tableStudentKeyMoney" focusTraversable="false" layoutX="390.0" layoutY="315.0" onMouseClicked="#tableStudentOnMouseClicked" opacity="0.9" prefHeight="404.0" prefWidth="1037.0" style="-fx-background-color: #ebebeb;">
+         <columns>
+            <TableColumn fx:id="colStId" prefWidth="84.00006103515625" text="student id" />
+            <TableColumn fx:id="colName" prefWidth="164.7999267578125" text="student name" />
+            <TableColumn fx:id="colAddress" prefWidth="174.4000244140625" text="address" />
+            <TableColumn fx:id="colContacts" prefWidth="111.20001220703125" text="contact" />
+            <TableColumn fx:id="colDob" prefWidth="95.2000732421875" text="date of birth" />
+            <TableColumn fx:id="colGender" prefWidth="91.99993896484375" text="gender" />
+            <TableColumn fx:id="colResId" prefWidth="94.39990234375" text="reservation id" />
+            <TableColumn fx:id="colResDate" prefWidth="107.2000732421875" text="reservation date" />
+            <TableColumn fx:id="colKeyMoney" prefWidth="105.60009765625" text="key money" />
+         </columns>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TableView>
+      <Label layoutX="390.0" layoutY="287.0" text="Students yet to pay key money :" textFill="WHITE" />
    </children>
 </AnchorPane>

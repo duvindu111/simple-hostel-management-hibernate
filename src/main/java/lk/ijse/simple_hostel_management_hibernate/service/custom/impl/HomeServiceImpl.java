@@ -3,25 +3,22 @@ package lk.ijse.simple_hostel_management_hibernate.service.custom.impl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lk.ijse.simple_hostel_management_hibernate.config.SessionFactoryConfig;
-import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
-import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.projection.CustomProjection;
 import lk.ijse.simple_hostel_management_hibernate.repository.RepositoryFactory;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.QueryRepository;
-import lk.ijse.simple_hostel_management_hibernate.repository.custom.StudentRepository;
-import lk.ijse.simple_hostel_management_hibernate.service.custom.KeyMoneyStudentService;
+import lk.ijse.simple_hostel_management_hibernate.service.custom.HomeService;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class KeyMoneyStudentServiceImpl implements KeyMoneyStudentService {
-
-    QueryRepository queryRepository = RepositoryFactory.getRepositoryFactory()
-            .getRepository(RepositoryFactory.RepositoryTypes.QUERY);
-
+public class HomeServiceImpl implements HomeService {
     @Override
     public ObservableList<CustomProjection> getDetailsToTableView() {
+
+        QueryRepository queryRepository = RepositoryFactory.getRepositoryFactory()
+                .getRepository(RepositoryFactory.RepositoryTypes.QUERY);
+
         Session session = SessionFactoryConfig.getInstance().getSession();
         Transaction transaction =session.beginTransaction();
         try {
