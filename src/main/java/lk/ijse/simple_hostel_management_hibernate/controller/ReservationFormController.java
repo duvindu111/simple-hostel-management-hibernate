@@ -123,6 +123,9 @@ public class ReservationFormController {
     @FXML
     private TextField txtEnterResId;
 
+    @FXML
+    private JFXButton btnKeyMoney;
+
     ReservationService reservationService = ServiceFactory.getServiceFactory().getservice(ServiceFactory.ServiceTypes.RESERVATION);
 
     @FXML
@@ -361,5 +364,17 @@ public class ReservationFormController {
         lblDateOfBirth.setText("");
         lblGender.setText("");
         grpGetStByResId.setVisible(false);
+    }
+
+    public void btnKeyMoneyOnAction(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        stage.resizableProperty().setValue(false);
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/key_money_st_form.fxml"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.centerOnScreen();
+        stage.show();
     }
 }

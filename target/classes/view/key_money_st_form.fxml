@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="studentFormAncPane" prefHeight="641.0" prefWidth="1500.0" styleClass="gradient-anchorpane" stylesheets="@../assets/styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.simple_hostel_management_hibernate.controller.KeyMoneyStudentFormController">
+   <children>
+      <Label alignment="CENTER" layoutX="86.0" layoutY="68.0" nodeOrientation="LEFT_TO_RIGHT" opacity="0.8" prefHeight="66.0" prefWidth="1326.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 5;" text="Students who haven't paid key money yet" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Eras Bold ITC" size="31.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableStudentKeyMoney" focusTraversable="false" layoutX="86.0" layoutY="167.0" onMouseClicked="#tableStudentOnMouseClicked" opacity="0.9" prefHeight="404.0" prefWidth="1326.0" style="-fx-background-color: #ebebeb;">
+         <columns>
+            <TableColumn fx:id="colStId" prefWidth="94.39999389648438" text="student id" />
+            <TableColumn fx:id="colName" prefWidth="192.79998779296875" text="student name" />
+            <TableColumn fx:id="colAddress" prefWidth="196.0" text="address" />
+            <TableColumn fx:id="colContacts" prefWidth="155.20001220703125" text="contact" />
+            <TableColumn fx:id="colDob" prefWidth="143.20001220703125" text="date of birth" />
+            <TableColumn fx:id="colGender" prefWidth="99.199951171875" text="gender" />
+            <TableColumn fx:id="colResId" prefWidth="90.4000244140625" text="reservation id" />
+            <TableColumn fx:id="colResDate" prefWidth="137.5999755859375" text="reservation date" />
+            <TableColumn fx:id="colRoomType" prefWidth="113.5999755859375" text="room type" />
+            <TableColumn fx:id="colKeyMoney" prefWidth="105.60009765625" text="key money" />
+         </columns>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TableView>
+   </children>
+</AnchorPane>

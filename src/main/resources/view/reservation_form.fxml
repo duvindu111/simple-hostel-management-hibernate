@@ -114,5 +114,13 @@
             </ImageView>
          </children>
       </Group>
+      <JFXButton fx:id="btnKeyMoney" buttonType="RAISED" layoutX="1284.0" layoutY="722.0" onAction="#btnKeyMoneyOnAction" prefHeight="36.0" prefWidth="162.0" style="-fx-background-radius: 5; -fx-background-color: #ebebeb;" text="Students yet to pay key money" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Arial" size="10.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
    </children>
 </AnchorPane>

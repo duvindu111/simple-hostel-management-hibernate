@@ -1,5 +1,6 @@
 package lk.ijse.simple_hostel_management_hibernate.repository;
 
+import lk.ijse.simple_hostel_management_hibernate.repository.custom.impl.QueryRepositoryImpl;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.impl.ReservationRepositoryImpl;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.impl.RoomRepositoryImpl;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.impl.StudentRepositoryImpl;
@@ -17,7 +18,7 @@ public class RepositoryFactory {
     }
 
     public enum RepositoryTypes{
-        STUDENT,ROOM,RESERVATION
+        STUDENT,ROOM,RESERVATION,QUERY
     }
 
     public <T extends SuperRepository>T getRepository(RepositoryTypes type){
@@ -28,6 +29,8 @@ public class RepositoryFactory {
                 return (T)new RoomRepositoryImpl();
             case RESERVATION:
                 return (T)new ReservationRepositoryImpl();
+            case QUERY:
+                return (T)new QueryRepositoryImpl();
             default:
                 return null;
         }
