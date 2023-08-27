@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="436.0" prefWidth="714.0" styleClass="gradient-anchorpane" stylesheets="@../assets/styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.simple_hostel_management_hibernate.controller.SignUpFormController">
+   <children>
+      <Label alignment="CENTER" layoutY="41.0" prefHeight="26.0" prefWidth="713.0" text="Welcome to D24  Hostel Management System" textFill="WHITE">
+         <font>
+            <Font name="Eras Bold ITC" size="27.0" />
+         </font>
+      </Label>
+      <Label layoutX="299.0" layoutY="118.0" text="Create a new account" textFill="WHITE" underline="true" />
+      <JFXButton fx:id="btnNewAccount" layoutX="286.0" layoutY="319.0" onAction="#btnNewAccountOnAction" opacity="0.8" prefHeight="26.0" prefWidth="142.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 10;" text="Create new account">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label layoutX="209.0" layoutY="167.0" text="Username :" textFill="WHITE" />
+      <Label layoutX="211.0" layoutY="212.0" text="Password :" textFill="WHITE" />
+      <TextField fx:id="txtUsername" layoutX="296.0" layoutY="163.0" prefHeight="26.0" prefWidth="236.0" promptText="new Username" style="-fx-background-radius: 15;" />
+      <TextField fx:id="txtPassword" layoutX="296.0" layoutY="208.0" prefHeight="26.0" prefWidth="236.0" promptText="new Password" style="-fx-background-radius: 15;" />
+      <Label layoutX="166.0" layoutY="257.0" text="Confirm Password :" textFill="WHITE" />
+      <TextField fx:id="txtConPassword" layoutX="296.0" layoutY="253.0" prefHeight="26.0" prefWidth="236.0" promptText="confirm New Password" style="-fx-background-radius: 15;" />
+      <JFXButton fx:id="btnBack" layoutX="39.0" layoutY="381.0" onAction="#btnBackOnAction" opacity="0.8" prefHeight="26.0" prefWidth="91.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 10;" text="&lt;--  Back">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+   </children>
+</AnchorPane>
