@@ -24,7 +24,6 @@
             <Label layoutX="199.0" layoutY="96.0" text="Username :" textFill="WHITE" />
             <Label layoutX="199.0" layoutY="142.0" text="Password :" textFill="WHITE" />
             <TextField fx:id="txtUsername" layoutX="286.0" layoutY="92.0" prefHeight="26.0" prefWidth="236.0" promptText="Enter Username" style="-fx-background-radius: 15;" />
-            <TextField fx:id="txtPassword" layoutX="286.0" layoutY="137.0" prefHeight="26.0" prefWidth="236.0" promptText="Enter Password" style="-fx-background-radius: 15;" />
             <JFXButton fx:id="btnLogin" layoutX="318.0" layoutY="196.0" onAction="#btnLoginOnAction" opacity="0.8" prefHeight="26.0" prefWidth="77.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 10;" text="Login">
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -44,6 +43,16 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
+            <PasswordField fx:id="txtPassword" layoutX="286.0" layoutY="137.0" prefHeight="26.0" prefWidth="236.0" promptText="Enter Password" style="-fx-background-radius: 15;" />
+            <TextField fx:id="txtDisplayPass" layoutX="286.0" layoutY="137.0" prefHeight="25.0" prefWidth="236.0" style="-fx-background-radius: 15;" visible="false" />
+            <ImageView fx:id="icnEye" fitHeight="24.0" fitWidth="26.0" layoutX="484.0" layoutY="138.0" onMouseClicked="#icnEyeOnMouseClicked" opacity="0.22" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/images/visible.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
          </children>
       </Group>
       <Group fx:id="grpAdminPin" layoutX="243.0" layoutY="144.0" visible="false">

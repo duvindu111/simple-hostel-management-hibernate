@@ -66,6 +66,9 @@ public class SignUpFormController {
             UserDTO userDto = new UserDTO(username,pass);
             boolean saved = signUpService.saveNewUser(userDto);
             if(saved){
+                txtUsername.setText("");
+                txtPassword.setText("");
+                txtConPassword.setText("");
                 AlertController.confirmmessage("new account created successfully");
             }else{
                 AlertController.errormessage("account creation process interrupted");

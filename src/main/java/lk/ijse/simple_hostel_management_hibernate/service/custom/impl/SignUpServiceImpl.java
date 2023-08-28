@@ -25,9 +25,8 @@ public class SignUpServiceImpl implements SignUpService {
         }catch (Exception e){
             transaction.rollback();
             session.close();
-            System.out.println("getting admin pin failed");
+            System.out.println("checking username availability process failed");
             System.out.println(e);
-            e.printStackTrace();
             return null;
         }
     }

@@ -23,8 +23,17 @@ public class UserRepositoryImpl implements UserRepository {
         String sql = "SELECT username FROM user WHERE username= :un ";
         Query query = session.createNativeQuery(sql);
         query.setParameter("un", username);
-        String pin = (String) query.getSingleResult();
-        return pin;
+        String name = (String) query.getSingleResult();
+        return name;
+    }
+
+    @Override
+    public String checkPassword(String username) {
+        String sql = "SELECT password FROM user WHERE username= :un ";
+        Query query = session.createNativeQuery(sql);
+        query.setParameter("un", username);
+        String pass = (String) query.getSingleResult();
+        return pass;
     }
 
     @Override
@@ -48,7 +57,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void update(User entity) {
-        //not yet implemented
+        session.update(entity);
     }
 
     @Override

@@ -2,10 +2,16 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="homeFormAncPane" prefHeight="800.0" prefWidth="1500.0" styleClass="gradient-anchorpane" stylesheets="@../assets/styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.simple_hostel_management_hibernate.controller.HomeFormController">
@@ -46,5 +52,96 @@
          </opaqueInsets>
       </TableView>
       <Label layoutX="390.0" layoutY="287.0" text="Students yet to pay key money :" textFill="WHITE" />
+      <ImageView fx:id="icnSettings" fitHeight="35.0" fitWidth="35.0" layoutX="47.0" layoutY="744.0" onMouseClicked="#icnSettingsOnMouseClicked" onMouseEntered="#icnSettingsOnMouseEntered" onMouseExited="#icnSettingsOnMouseExited" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/images/gear.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <Group fx:id="grpSettings" layoutX="47.0" layoutY="75.0" visible="false">
+         <children>
+            <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#ebebeb" height="644.0" stroke="TRANSPARENT" strokeType="INSIDE" width="272.0" />
+            <Label fx:id="lblChangePass" layoutX="21.0" layoutY="57.0" onMouseClicked="#lblChangePassOnMouseClicked" styleClass="lbl-forgot-pass" stylesheets="@../assets/styles/style.css" text="-&gt; Change Password">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <ImageView fx:id="icnCloseCP" fitHeight="30.0" fitWidth="30.0" layoutX="230.0" layoutY="11.0" onMouseClicked="#icnCloseCPOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/images/close.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group fx:id="grpChangePass" layoutX="47.0" layoutY="75.0" visible="false">
+         <children>
+            <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#ebebeb" height="644.0" stroke="TRANSPARENT" strokeType="INSIDE" width="272.0" />
+            <Label alignment="CENTER" layoutX="89.0" layoutY="24.0" text="Change Password" textAlignment="CENTER" underline="true" />
+            <Group fx:id="grpCurrentPass" layoutX="58.0" layoutY="85.0">
+               <children>
+                  <Label text="Enter your current password :" />
+                  <PasswordField fx:id="txtCurrentPass" layoutX="3.0" layoutY="34.0" onAction="#txtCurrentPassOnAction" prefHeight="26.0" prefWidth="155.0" style="-fx-background-radius: 15;" />
+                  <Label layoutX="49.0" layoutY="75.0" text="Press Enter">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="icnEyeTop" fitHeight="28.0" fitWidth="25.0" layoutX="125.0" layoutY="35.0" onMouseEntered="#icnEyeTopOnMouseEntered" onMouseExited="#icnEyeTopOnMouseExited" opacity="0.2" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/images/visible.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblCurrentPass" layoutX="13.0" layoutY="33.0" prefHeight="28.0" prefWidth="108.0" text="Label" visible="false" />
+               </children>
+            </Group>
+            <Group fx:id="grpNewPass" layoutX="62.0" layoutY="179.0" visible="false">
+               <children>
+                  <Label layoutX="11.0" text="Enter your new password :" />
+                  <PasswordField fx:id="txtNewPass" layoutY="33.0" onKeyTyped="#txtNewPassOnKeyTyped" prefHeight="26.0" prefWidth="155.0" style="-fx-background-radius: 15;" />
+                  <Label layoutY="80.0" text="Confirm your new password :" />
+                  <PasswordField fx:id="txtConNewPass" layoutX="3.0" layoutY="111.0" onKeyTyped="#txtConNewPassOnKeyTyped" prefHeight="26.0" prefWidth="155.0" style="-fx-background-radius: 15;" />
+                  <JFXButton fx:id="btnSubmit" layoutX="32.0" layoutY="199.0" onAction="#btnSubmitOnAction" prefHeight="26.0" prefWidth="82.0" style="-fx-background-radius: 15; -fx-background-color: #a4a4a4;" text="Submit">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Label fx:id="lblPassLength" layoutX="7.0" layoutY="148.0" text="password must be at least 8 " wrapText="true">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblCharacters" layoutX="38.0" layoutY="165.0" text="characters long" wrapText="true">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblNewPass" layoutX="11.0" layoutY="32.0" prefHeight="28.0" prefWidth="108.0" text="Label" visible="false" />
+                  <Label fx:id="lblConNewPass" layoutX="11.0" layoutY="110.0" prefHeight="28.0" prefWidth="108.0" text="Label" visible="false" />
+                  <ImageView fx:id="icnEyeMid" fitHeight="28.0" fitWidth="25.0" layoutX="125.0" layoutY="34.0" onMouseEntered="#icnEyeMidOnMouseEntered" onMouseExited="#icnEyeMidOnMouseExited" opacity="0.2" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/images/visible.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="icnEyeBottom" fitHeight="28.0" fitWidth="25.0" layoutX="125.0" layoutY="112.0" onMouseEntered="#icnEyeBottomOnMouseEntered" onMouseExited="#icnEyeBottomOnMouseExited" opacity="0.2" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/images/visible.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblPassMatch" layoutX="9.0" layoutY="150.0" text="Passwords doesn't match" textFill="RED" visible="false" />
+               </children>
+            </Group>
+            <ImageView fx:id="icnCloseNP" fitHeight="30.0" fitWidth="30.0" layoutX="230.0" layoutY="11.0" onMouseClicked="#icnCloseNPOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/images/close.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Label fx:id="lblSettings" layoutX="97.0" layoutY="753.0" text="Settings" textFill="WHITE" underline="true" visible="false" />
    </children>
 </AnchorPane>

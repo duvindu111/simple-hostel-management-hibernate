@@ -1,22 +1,25 @@
 package lk.ijse.simple_hostel_management_hibernate.controller;
 
 import com.jfoenix.controls.JFXButton;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
 import lk.ijse.simple_hostel_management_hibernate.service.ServiceFactory;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.LoginService;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class LoginFormController {
 
@@ -48,7 +51,10 @@ public class LoginFormController {
     private PasswordField txtAuthPin;
 
     @FXML
-    private TextField txtPassword;
+    private PasswordField txtPassword;
+
+    @FXML
+    private TextField txtDisplayPass;
 
     @FXML
     private TextField txtUsername;
@@ -63,7 +69,7 @@ public class LoginFormController {
         String pin = loginService.getAdminPin();
         String typedPin = txtAuthPin.getText();
 
-        if(!typedPin.isEmpty()) {
+        if (!typedPin.isEmpty()) {
             if (typedPin.equals(pin)) {
                 System.out.println(pin);
                 System.out.println(typedPin);
@@ -96,10 +102,61 @@ public class LoginFormController {
     }
 
     public void btnLoginOnAction(ActionEvent actionEvent) {
+        String username = txtUsername.getText();
+
+        String password;
+        if(txtDisplayPass.isVisible()){
+            password=txtDisplayPass.getText();
+        }else{
+            password = txtPassword.getText();
+        }
+
+        if (!username.isEmpty() && !password.isEmpty()) {
+            String sameUsername = loginService.checkUsernameAvailability(username);
+
+            if (sameUsername != null) {
+                String dbPassword = loginService.checkPassword(username);
+                if (dbPassword.equals(password)) {
+                    HomeFormController.getUsernameFromLogin(username);
+                    btnLogin.getScene().getWindow().hide();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/home_form.fxml"));
+                    Parent root1 = null;
+                    try {
+                        root1 = fxmlLoader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Stage stage = new Stage();
+                    stage.setTitle("D24 Hostel Management System");
+                    stage.setScene(new Scene(root1));
+                    stage.setResizable(false);
+                    stage.show();
+
+                } else {
+                    AlertController.errormessage("incorrect password \nplease try again");
+                }
+            } else {
+                AlertController.errormessage("no account available for the username: \"" + username + "\"");
+            }
+        }else{
+            AlertController.errormessage("please make sure to fill out\nall the required fields");
+        }
     }
 
     public void btnNewAccountOnAction(ActionEvent actionEvent) {
         grpLogin.setVisible(false);
         grpAdminPin.setVisible(true);
+    }
+
+
+    public void icnEyeOnMouseClicked(MouseEvent mouseEvent) {
+        if(!txtDisplayPass.isVisible()){
+            txtDisplayPass.setText(txtPassword.getText());
+            txtDisplayPass.setVisible(true);
+        }else{
+            txtPassword.setText(txtDisplayPass.getText());
+            txtDisplayPass.setVisible(false);
+            btnLogin.requestFocus();
+        }
     }
 }

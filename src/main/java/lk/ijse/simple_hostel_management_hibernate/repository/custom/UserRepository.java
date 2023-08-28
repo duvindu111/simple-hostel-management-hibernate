@@ -11,4 +11,6 @@ public interface UserRepository extends CrudRepository<User,String> {
     public void setSession(Session session);
 
     String checkUsernameAvailability(String username);
+
+    String checkPassword(String username);
 }
