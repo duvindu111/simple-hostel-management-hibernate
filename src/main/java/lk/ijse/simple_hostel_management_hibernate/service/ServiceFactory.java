@@ -18,7 +18,7 @@ public class ServiceFactory {
     }
 
     public enum ServiceTypes{
-        STUDENT,ROOM,RESERVATION,KEY_MONEY_STUDENT,HOME
+        STUDENT,ROOM,RESERVATION,KEY_MONEY_STUDENT,HOME,LOGIN,SIGN_UP
     }
 
     public <T extends SuperService>T getservice(ServiceTypes type){
@@ -33,6 +33,10 @@ public class ServiceFactory {
                 return (T)new KeyMoneyStudentServiceImpl();
             case HOME:
                 return (T)new HomeServiceImpl();
+            case LOGIN:
+                return (T)new LoginServiceImpl();
+            case SIGN_UP:
+                return (T)new SignUpServiceImpl();
             default:
                 return null;
         }

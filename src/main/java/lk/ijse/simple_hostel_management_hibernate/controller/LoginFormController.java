@@ -1,15 +1,22 @@
 package lk.ijse.simple_hostel_management_hibernate.controller;
 
 import com.jfoenix.controls.JFXButton;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import lk.ijse.simple_hostel_management_hibernate.service.ServiceFactory;
+import lk.ijse.simple_hostel_management_hibernate.service.custom.LoginService;
 
 public class LoginFormController {
 
@@ -47,13 +54,30 @@ public class LoginFormController {
     private TextField txtUsername;
 
     @FXML
-    void btnSubmitOnAction(ActionEvent event) {
+    private AnchorPane loginAncPane;
 
+    LoginService loginService = ServiceFactory.getServiceFactory().getservice(ServiceFactory.ServiceTypes.LOGIN);
+
+    @FXML
+    void btnSubmitOnAction(ActionEvent event) throws IOException {
+        String pin = loginService.getAdminPin();
+        String typedPin = txtAuthPin.getText();
+
+        if(!typedPin.isEmpty()) {
+            if (typedPin.equals(pin)) {
+                System.out.println(pin);
+                System.out.println(typedPin);
+                Parent load = FXMLLoader.load(getClass().getResource("/view/signup_form.fxml"));
+                loginAncPane.getChildren().clear();
+                loginAncPane.getChildren().add(load);
+            }
+        }
     }
 
     @FXML
     void icnCloseOnMouseClicked(MouseEvent event) {
-
+        grpLogin.setVisible(true);
+        grpAdminPin.setVisible(false);
     }
 
     @FXML
@@ -68,6 +92,14 @@ public class LoginFormController {
         assert txtPassword != null : "fx:id=\"txtPassword\" was not injected: check your FXML file 'login_form.fxml'.";
         assert txtUsername != null : "fx:id=\"txtUsername\" was not injected: check your FXML file 'login_form.fxml'.";
 
+
     }
 
+    public void btnLoginOnAction(ActionEvent actionEvent) {
+    }
+
+    public void btnNewAccountOnAction(ActionEvent actionEvent) {
+        grpLogin.setVisible(false);
+        grpAdminPin.setVisible(true);
+    }
 }
