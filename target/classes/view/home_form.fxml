@@ -35,7 +35,7 @@
             <Font name="Eras Bold ITC" size="22.0" />
          </font>
       </JFXButton>
-      <TableView fx:id="tableStudentKeyMoney" focusTraversable="false" layoutX="390.0" layoutY="315.0" onMouseClicked="#tableStudentOnMouseClicked" opacity="0.9" prefHeight="404.0" prefWidth="1037.0" style="-fx-background-color: #ebebeb;">
+      <TableView fx:id="tableStudentKeyMoney" focusTraversable="false" layoutX="390.0" layoutY="441.0" onMouseClicked="#tableStudentOnMouseClicked" opacity="0.9" prefHeight="278.0" prefWidth="1038.0" style="-fx-background-color: #ebebeb;">
          <columns>
             <TableColumn fx:id="colStId" prefWidth="84.00006103515625" text="student id" />
             <TableColumn fx:id="colName" prefWidth="164.7999267578125" text="student name" />
@@ -51,7 +51,7 @@
             <Insets />
          </opaqueInsets>
       </TableView>
-      <Label layoutX="390.0" layoutY="287.0" text="Students yet to pay key money :" textFill="WHITE" />
+      <Label layoutX="390.0" layoutY="408.0" text="Students yet to pay key money :" textFill="WHITE" />
       <ImageView fx:id="icnSettings" fitHeight="35.0" fitWidth="35.0" layoutX="47.0" layoutY="744.0" onMouseClicked="#icnSettingsOnMouseClicked" onMouseEntered="#icnSettingsOnMouseEntered" onMouseExited="#icnSettingsOnMouseExited" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/images/gear.png" />
@@ -76,6 +76,14 @@
                   <Image url="@../assets/images/close.png" />
                </image>
             </ImageView>
+            <Label fx:id="lblLogOut" layoutX="21.0" layoutY="82.0" onMouseClicked="#lblLogOutOnMouseClicked" styleClass="lbl-forgot-pass" stylesheets="@../assets/styles/style.css" text="-&gt; Log Out">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
          </children>
       </Group>
       <Group fx:id="grpChangePass" layoutX="47.0" layoutY="75.0" visible="false">
@@ -143,5 +151,18 @@
          </children>
       </Group>
       <Label fx:id="lblSettings" layoutX="97.0" layoutY="753.0" text="Settings" textFill="WHITE" underline="true" visible="false" />
+      <TableView fx:id="tableRoomAvailability" focusTraversable="false" layoutX="390.0" layoutY="188.0" onMouseClicked="#tableStudentOnMouseClicked" opacity="0.9" prefHeight="192.0" prefWidth="1038.0" style="-fx-background-color: #ebebeb;">
+         <columns>
+            <TableColumn fx:id="colRoomId" prefWidth="184.79995727539062" text="room type id" />
+            <TableColumn fx:id="colRoomType" prefWidth="305.5999755859375" text="room type" />
+            <TableColumn fx:id="colAvailableRooms" prefWidth="180.0" text="available rooms" />
+            <TableColumn fx:id="colAvaKeyMoney" prefWidth="185.60009765625" text="key money" />
+            <TableColumn fx:id="colMaxPerRoom" prefWidth="182.4000244140625" text="max no. of persons per room" />
+         </columns>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TableView>
+      <Label layoutX="390.0" layoutY="158.0" text="Room Availability :" textFill="WHITE" />
    </children>
 </AnchorPane>

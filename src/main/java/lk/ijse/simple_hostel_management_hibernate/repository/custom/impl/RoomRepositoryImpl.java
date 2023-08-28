@@ -2,6 +2,8 @@ package lk.ijse.simple_hostel_management_hibernate.repository.custom.impl;
 
 import lk.ijse.simple_hostel_management_hibernate.entity.Room;
 import lk.ijse.simple_hostel_management_hibernate.entity.Student;
+import lk.ijse.simple_hostel_management_hibernate.projection.CustomProjection;
+import lk.ijse.simple_hostel_management_hibernate.projection.RoomProjection;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.RoomRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -17,6 +19,16 @@ public class RoomRepositoryImpl implements RoomRepository {
     @Override
     public void setSession(Session session) {
         this.session=session;
+    }
+
+    @Override
+    public List<RoomProjection> getDetailsForRoomAvailabily() {
+        String hql = "select new lk.ijse.simple_hostel_management_hibernate.projection.RoomProjection(" +
+                "R.roomTypeId,R.roomType,R.availableRooms,R.keyMoney,R.perRoom) " +
+                "FROM Room AS R ";
+        Query query = session.createQuery(hql);
+        List<RoomProjection> roomAvailabilityList = query.list();
+        return roomAvailabilityList;
     }
 
     @Override

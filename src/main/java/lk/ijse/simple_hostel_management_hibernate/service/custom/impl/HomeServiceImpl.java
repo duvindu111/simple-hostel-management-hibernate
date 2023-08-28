@@ -5,8 +5,10 @@ import javafx.collections.ObservableList;
 import lk.ijse.simple_hostel_management_hibernate.config.SessionFactoryConfig;
 import lk.ijse.simple_hostel_management_hibernate.dto.UserDTO;
 import lk.ijse.simple_hostel_management_hibernate.projection.CustomProjection;
+import lk.ijse.simple_hostel_management_hibernate.projection.RoomProjection;
 import lk.ijse.simple_hostel_management_hibernate.repository.RepositoryFactory;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.QueryRepository;
+import lk.ijse.simple_hostel_management_hibernate.repository.custom.RoomRepository;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.UserRepository;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.HomeService;
 import org.hibernate.Session;
@@ -20,6 +22,8 @@ public class HomeServiceImpl implements HomeService {
             .getRepository(RepositoryFactory.RepositoryTypes.QUERY);
 
     UserRepository userRepository = RepositoryFactory.getRepositoryFactory().getRepository(RepositoryFactory.RepositoryTypes.USER);
+
+    RoomRepository roomRepository = RepositoryFactory.getRepositoryFactory().getRepository(RepositoryFactory.RepositoryTypes.ROOM);
     @Override
     public ObservableList<CustomProjection> getDetailsToTableView() {
         Session session = SessionFactoryConfig.getInstance().getSession();
@@ -76,6 +80,27 @@ public class HomeServiceImpl implements HomeService {
             System.out.println("changePassword failed");
             System.out.println(e);
             return false;
+        }
+    }
+
+    @Override
+    public ObservableList<RoomProjection> getDetailsToRoomAvaTableView() {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        Transaction transaction =session.beginTransaction();
+        try {
+            roomRepository.setSession(session);
+            List<RoomProjection> customList = roomRepository.getDetailsForRoomAvailabily();
+            ObservableList<RoomProjection> customObList = FXCollections.observableArrayList(customList);
+
+            transaction.commit();
+            session.close();
+            return customObList;
+        }catch (Exception e){
+            transaction.rollback();
+            session.close();
+            System.out.println("getDetailsToRoomAvaTableView failed");
+            System.out.println(e);
+            return null;
         }
     }
 }

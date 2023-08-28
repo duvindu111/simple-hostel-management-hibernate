@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
@@ -17,11 +18,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
 import lk.ijse.simple_hostel_management_hibernate.dto.UserDTO;
 import lk.ijse.simple_hostel_management_hibernate.projection.CustomProjection;
+import lk.ijse.simple_hostel_management_hibernate.projection.RoomProjection;
 import lk.ijse.simple_hostel_management_hibernate.service.ServiceFactory;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.HomeService;
+import lk.ijse.simple_hostel_management_hibernate.view.tm.RoomAvailabilityTM;
 import lk.ijse.simple_hostel_management_hibernate.view.tm.StudentKeyMoneyTM;
 
 import java.io.IOException;
@@ -37,8 +41,15 @@ public class HomeFormController {
     @FXML
     private JFXButton btnStudent;
 
+
     @FXML
     private TableColumn<?, ?> colAddress;
+
+    @FXML
+    private TableColumn<?, ?> colAvaKeyMoney;
+
+    @FXML
+    private TableColumn<?, ?> colAvailableRooms;
 
     @FXML
     private TableColumn<?, ?> colContacts;
@@ -53,6 +64,9 @@ public class HomeFormController {
     private TableColumn<?, ?> colKeyMoney;
 
     @FXML
+    private TableColumn<?, ?> colMaxPerRoom;
+
+    @FXML
     private TableColumn<?, ?> colName;
 
     @FXML
@@ -60,6 +74,12 @@ public class HomeFormController {
 
     @FXML
     private TableColumn<?, ?> colResId;
+
+    @FXML
+    private TableColumn<?, ?> colRoomId;
+
+    @FXML
+    private TableColumn<?, ?> colRoomType;
 
     @FXML
     private TableColumn<?, ?> colStId;
@@ -133,6 +153,12 @@ public class HomeFormController {
     @FXML
     private Label lblPassMatch;
 
+    @FXML
+    private Label lblLogOut;
+
+    @FXML
+    private TableView<RoomAvailabilityTM> tableRoomAvailability;
+
     HomeService homeService = ServiceFactory.getServiceFactory().getservice(ServiceFactory.ServiceTypes.HOME);
 
     @FXML
@@ -164,6 +190,7 @@ public class HomeFormController {
         assert homeFormAncPane != null : "fx:id=\"homeFormAncPane\" was not injected: check your FXML file 'home_form.fxml'.";
 
         setDataToTableView();
+        setDataToRoomAvailabilityTableView();
         setCellValueFactory();
     }
 
@@ -199,6 +226,29 @@ public class HomeFormController {
         colResId.setCellValueFactory(new PropertyValueFactory<>("res_id"));
         colResDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colKeyMoney.setCellValueFactory(new PropertyValueFactory<>("key_money"));
+
+        colRoomId.setCellValueFactory(new PropertyValueFactory<>("roomTypeId"));
+        colRoomType.setCellValueFactory(new PropertyValueFactory<>("roomType"));
+        colAvailableRooms.setCellValueFactory(new PropertyValueFactory<>("availableRooms"));
+        colAvaKeyMoney.setCellValueFactory(new PropertyValueFactory<>("keyMoney"));
+        colMaxPerRoom.setCellValueFactory(new PropertyValueFactory<>("maxPersons"));
+    }
+
+    public void setDataToRoomAvailabilityTableView() {
+        ObservableList<RoomProjection> roomProjectionsList = homeService.getDetailsToRoomAvaTableView();
+        ObservableList<RoomAvailabilityTM> roomProjectionsTMList = FXCollections.observableArrayList();
+        for (RoomProjection rp : roomProjectionsList) {
+            roomProjectionsTMList.add(
+                    new RoomAvailabilityTM(
+                            rp.getRoomTypeId(),
+                            rp.getRoomType(),
+                            rp.getAvailableRooms(),
+                            rp.getKeyMoney(),
+                            rp.getMaxPersons()
+                    )
+            );
+        }
+        tableRoomAvailability.setItems(roomProjectionsTMList);
     }
 
     public void tableStudentOnMouseClicked(MouseEvent mouseEvent) {
@@ -271,11 +321,11 @@ public class HomeFormController {
                     } else {
                         AlertController.errormessage("Process Interrupted.\nThe password didn't change.");
                     }
-                }else{
-                   lblPassLength.setStyle("-fx-text-fill: red");
+                } else {
+                    lblPassLength.setStyle("-fx-text-fill: red");
                     lblCharacters.setStyle("-fx-text-fill: red");
                 }
-            }else{
+            } else {
                 lblPassLength.setVisible(false);
                 lblCharacters.setVisible(false);
                 lblPassMatch.setVisible(true);
@@ -348,5 +398,21 @@ public class HomeFormController {
         lblPassMatch.setVisible(false);
         lblPassLength.setVisible(true);
         lblCharacters.setVisible(true);
+    }
+
+    public void lblLogOutOnMouseClicked(MouseEvent mouseEvent) {
+        lblLogOut.getScene().getWindow().hide();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/login_form.fxml"));
+        Parent root1 = null;
+        try {
+            root1 = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.setTitle("D24 Hostel Management System");
+        stage.setScene(new Scene(root1));
+        stage.setResizable(false);
+        stage.show();
     }
 }

@@ -1,6 +1,10 @@
 package lk.ijse.simple_hostel_management_hibernate.controller;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,24 +14,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
 import lk.ijse.simple_hostel_management_hibernate.service.ServiceFactory;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.LoginService;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class LoginFormController {
 
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
+    private JFXButton btnGFPGetPass;
 
     @FXML
     private JFXButton btnLogin;
@@ -42,25 +43,43 @@ public class LoginFormController {
     private Group grpAdminPin;
 
     @FXML
+    private Group grpGFP;
+
+    @FXML
     private Group grpLogin;
+
+    @FXML
+    private ImageView icnEye;
 
     @FXML
     private Label lblForgotPass;
 
     @FXML
-    private PasswordField txtAuthPin;
+    private Label lblGFPPassword;
 
     @FXML
-    private PasswordField txtPassword;
+    private AnchorPane loginAncPane;
+
+    @FXML
+    private PasswordField txtAuthPin;
 
     @FXML
     private TextField txtDisplayPass;
 
     @FXML
+    private PasswordField txtGFPAuthPin;
+
+    @FXML
+    private TextField txtGFPUsername;
+
+    @FXML
+    private PasswordField txtPassword;
+
+    @FXML
     private TextField txtUsername;
 
     @FXML
-    private AnchorPane loginAncPane;
+    private Label lblGFPTimer;
 
     LoginService loginService = ServiceFactory.getServiceFactory().getservice(ServiceFactory.ServiceTypes.LOGIN);
 
@@ -105,9 +124,9 @@ public class LoginFormController {
         String username = txtUsername.getText();
 
         String password;
-        if(txtDisplayPass.isVisible()){
-            password=txtDisplayPass.getText();
-        }else{
+        if (txtDisplayPass.isVisible()) {
+            password = txtDisplayPass.getText();
+        } else {
             password = txtPassword.getText();
         }
 
@@ -138,7 +157,7 @@ public class LoginFormController {
             } else {
                 AlertController.errormessage("no account available for the username: \"" + username + "\"");
             }
-        }else{
+        } else {
             AlertController.errormessage("please make sure to fill out\nall the required fields");
         }
     }
@@ -150,13 +169,85 @@ public class LoginFormController {
 
 
     public void icnEyeOnMouseClicked(MouseEvent mouseEvent) {
-        if(!txtDisplayPass.isVisible()){
+        if (!txtDisplayPass.isVisible()) {
             txtDisplayPass.setText(txtPassword.getText());
             txtDisplayPass.setVisible(true);
-        }else{
+        } else {
             txtPassword.setText(txtDisplayPass.getText());
             txtDisplayPass.setVisible(false);
             btnLogin.requestFocus();
         }
+    }
+
+    public void txtPasswordOnAction(ActionEvent actionEvent) {
+        btnLoginOnAction(actionEvent);
+    }
+
+    public void txtUsernameOnAction(ActionEvent actionEvent) {
+        if (!txtUsername.getText().isEmpty()) {
+            txtPassword.requestFocus();
+        }
+    }
+
+    public void btnGFPGetPassOnAction(ActionEvent actionEvent) {
+        String username = txtGFPUsername.getText();
+        String pin = txtGFPAuthPin.getText();
+
+        String usernameAvailability = loginService.checkUsernameAvailability(username);
+        String dbPin = loginService.getAdminPin();
+
+        if (!username.isEmpty() && !pin.isEmpty()) {
+            if (dbPin.equals(pin)) {
+                if (usernameAvailability != null) {
+                    String pass = loginService.checkPassword(username);
+                    lblGFPPassword.setText(pass);
+                    txtGFPUsername.setText("");
+                    txtGFPAuthPin.setText("");
+                    lblGFPPassword.setVisible(true);
+
+//                    lblGFPPassword.setVisible(false);
+//                    lblGFPPassword.setText("");
+
+                    timermethod(lblGFPTimer,10);
+
+
+                } else {
+                    AlertController.errormessage("Username not available");
+                }
+            } else {
+                AlertController.warningmessage("Authorization Pin Incorrect");
+            }
+        }
+    }
+
+    private Timeline timeline;
+    private SimpleIntegerProperty timeSeconds = new SimpleIntegerProperty();
+
+    public void timermethod(Label label, int START_TIME) {
+        label.setVisible(true);
+        timeSeconds.set(START_TIME);
+        timeline = new Timeline();
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(START_TIME + 1),
+                new KeyValue(timeSeconds, 0)));
+        timeline.setOnFinished(event -> {
+            label.setVisible(false);
+            lblGFPPassword.setVisible(false);
+            lblGFPPassword.setText("");
+        });
+        timeline.playFromStart();
+        label.textProperty().bind(timeSeconds.asString());
+    }
+
+
+    public void lblForgotPassOnMouseClicked(MouseEvent mouseEvent) {
+        grpLogin.setVisible(false);
+        grpGFP.setVisible(true);
+    }
+
+    public void icnGFPCloseOnMouseClicked(MouseEvent mouseEvent) {
+        txtGFPUsername.setText("");
+        txtGFPAuthPin.setText("");
+        grpLogin.setVisible(true);
+        grpGFP.setVisible(false);
     }
 }
