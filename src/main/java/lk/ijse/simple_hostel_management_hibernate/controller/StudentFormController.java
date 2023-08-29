@@ -17,13 +17,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
+import lk.ijse.simple_hostel_management_hibernate.controller.util.ValidateFields;
 import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.service.ServiceFactory;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.StudentService;
-import lk.ijse.simple_hostel_management_hibernate.service.custom.impl.StudentServiceImpl;
 import lk.ijse.simple_hostel_management_hibernate.view.tm.StudentTM;
 
 public class StudentFormController {
@@ -122,39 +123,54 @@ public class StudentFormController {
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         StudentDTO studentDTO = getDetailsInTextFields();
-        boolean deleted = studentService.deleteStudent(studentDTO);
-        setDataToTableView();
-        if(deleted){
-            AlertController.confirmmessage("student details deleted successfully");
-            clearTxtFields();
+        boolean emptyFields = noEmptyValuesInTextFields();
+        if(emptyFields) {
+            boolean deleted = studentService.deleteStudent(studentDTO);
+            setDataToTableView();
+            if (deleted) {
+                AlertController.confirmmessage("student details deleted successfully");
+                clearTxtFields();
+            } else {
+                AlertController.errormessage("student details deleting process unsuccessful");
+            }
         }else{
-            AlertController.errormessage("student details deleting process unsuccessful");
+            AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
         StudentDTO studentDTO = getDetailsInTextFields();
-        boolean saved = studentService.saveStudent(studentDTO);
-        setDataToTableView();
-        if(saved){
-            AlertController.confirmmessage("student details saved successfully");
-            clearTxtFields();
+        boolean emptyFields = noEmptyValuesInTextFields();
+        if(emptyFields) {
+            boolean saved = studentService.saveStudent(studentDTO);
+            setDataToTableView();
+            if (saved) {
+                AlertController.confirmmessage("student details saved successfully");
+                clearTxtFields();
+            } else {
+                AlertController.errormessage("student details saving process unsuccessful");
+            }
         }else{
-            AlertController.errormessage("student details saving process unsuccessful");
+            AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
         StudentDTO studentDTO = getDetailsInTextFields();
-        boolean updated = studentService.updateStudent(studentDTO);
-        setDataToTableView();
-        if(updated){
-            AlertController.confirmmessage("student details updated successfully");
-            clearTxtFields();
+        boolean emptyFields = noEmptyValuesInTextFields();
+        if(emptyFields) {
+            boolean updated = studentService.updateStudent(studentDTO);
+            setDataToTableView();
+            if (updated) {
+                AlertController.confirmmessage("student details updated successfully");
+                clearTxtFields();
+            } else {
+                AlertController.errormessage("student details updating process unsuccessful");
+            }
         }else{
-            AlertController.errormessage("student details updating process unsuccessful");
+            AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
 
@@ -197,6 +213,15 @@ public class StudentFormController {
         txtContact1.setText(columns.get(3).getCellData(row).toString());
         dpDob.setValue((LocalDate) columns.get(4).getCellData(row));
         cmbGender.setValue(columns.get(5).getCellData(row).toString());
+
+        txtStId.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+        txtStName.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+        txtAddress.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+        txtContact1.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+
+        btnSave.setDisable(false);
+        btnUpdate.setDisable(false);
+        btnDelete.setDisable(false);
     }
 
     void clearTxtFields(){
@@ -212,5 +237,86 @@ public class StudentFormController {
         Parent load = FXMLLoader.load(getClass().getResource("/view/home_form.fxml"));
         studentFormAncPane.getChildren().clear();
         studentFormAncPane.getChildren().add(load);
+    }
+
+    public boolean noEmptyValuesInTextFields(){
+        String stId = txtStId.getText();
+        String stAdd = txtAddress.getText();
+        LocalDate dob = dpDob.getValue();
+        String gender = cmbGender.getValue();
+        String name = txtStName.getText();
+        String contact = txtContact1.getText();
+        if (!stId.isEmpty() && !stAdd.isEmpty() && !contact.isEmpty() && gender!=null && dob!=null &&
+                !gender.isEmpty() && !name.isEmpty() ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void txtStIdOnMouseKeyTyped(KeyEvent keyEvent) {
+        String txt = txtStId.getText();
+        if(ValidateFields.studentIdCheck(txt)){
+            txtStId.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+            btnEnable();
+        }else{
+            txtStId.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+            btnSave.setDisable(true);
+            btnUpdate.setDisable(true);
+            btnDelete.setDisable(true);
+        }
+    }
+
+    public void txtStNameOnMouseKeyTyped(KeyEvent keyEvent) {
+        String txt = txtStName.getText();
+        if(ValidateFields.nameCheck(txt)){
+            txtStName.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+            btnEnable();
+        }else{
+            txtStName.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+            btnSave.setDisable(true);
+            btnUpdate.setDisable(true);
+            btnDelete.setDisable(true);
+        }
+    }
+
+    public void txtAddressOnMouseKeyTyped(KeyEvent keyEvent) {
+        String txt = txtAddress.getText();
+        if(ValidateFields.addressCheck(txt)){
+            txtAddress.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+            btnEnable();
+        }else{
+            txtAddress.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+            btnSave.setDisable(true);
+            btnUpdate.setDisable(true);
+            btnDelete.setDisable(true);
+        }
+    }
+
+    public void txtContact1OnMouseKeyTyped(KeyEvent keyEvent) {
+        String txt = txtContact1.getText();
+        if(ValidateFields.contactCheck(txt)){
+            txtContact1.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+            btnEnable();
+        }else{
+            txtContact1.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
+            btnSave.setDisable(true);
+            btnUpdate.setDisable(true);
+            btnDelete.setDisable(true);
+        }
+    }
+
+    public void btnEnable(){
+        if(ValidateFields.nameCheck(txtStName.getText()) && ValidateFields.studentIdCheck(txtStId.getText()) &&
+                ValidateFields.addressCheck(txtAddress.getText()) && ValidateFields.contactCheck(txtContact1.getText())
+        ){
+            btnSave.setDisable(false);
+            btnUpdate.setDisable(false);
+            btnDelete.setDisable(false);
+        }
+    }
+
+    public void btnClearOnAction(ActionEvent actionEvent) {
+        clearTxtFields();
     }
 }

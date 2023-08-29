@@ -31,7 +31,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <TextField fx:id="txtResId" layoutX="380.0" layoutY="60.0" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="reservation id" style="-fx-background-radius: 15; -fx-background-radius: #ebebeb;">
+      <TextField fx:id="txtResId" layoutX="380.0" layoutY="60.0" onKeyTyped="#txtResIdOnMouseKeytyped" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="reservation id" style="-fx-background-radius: 15; -fx-background-radius: #ebebeb;">
          <font>
             <Font name="Arial Unicode MS" size="13.0" />
          </font>
@@ -67,12 +67,12 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ComboBox>
-      <Label fx:id="lblRoomAvailability" layoutX="389.0" layoutY="208.0" text="*rooms available*" textFill="WHITE" visible="false">
+      <Label fx:id="lblRoomAvailability" layoutX="389.0" layoutY="185.0" text="*rooms available*" textFill="WHITE" visible="false">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="lblExtraPersons" layoutX="389.0" layoutY="229.0" text="*there is a room with persons in it*" textFill="WHITE" visible="false">
+      <Label fx:id="lblExtraPersons" layoutX="389.0" layoutY="206.0" text="*there is a room with persons in it*" textFill="WHITE" visible="false">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
@@ -122,5 +122,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
+      <JFXButton fx:id="btnClear" layoutX="380.0" layoutY="233.0" onAction="#btnClearOnAction" opacity="0.8" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 15;" text="clear" />
    </children>
 </AnchorPane>

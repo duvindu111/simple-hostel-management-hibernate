@@ -3,6 +3,7 @@ package lk.ijse.simple_hostel_management_hibernate.service.custom.impl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lk.ijse.simple_hostel_management_hibernate.config.SessionFactoryConfig;
+import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
 import lk.ijse.simple_hostel_management_hibernate.dto.ReservationDTO;
 import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.entity.Reservation;
@@ -108,6 +109,12 @@ public class ReservationServiceImpl implements ReservationService {
             session.close();
             System.out.println("reservation saving process failed");
             System.out.println(e);
+
+            String errorMessage =  e.getMessage();
+            int startIndex = errorMessage.indexOf("[") +1;
+            int endIndex = errorMessage.indexOf("' ") +1;  // Find the index of the first ']'
+            String extractedPart = errorMessage.substring(startIndex, endIndex).trim();
+            AlertController.errormessage(extractedPart);
             return false;
         }
     }
@@ -147,6 +154,12 @@ public class ReservationServiceImpl implements ReservationService {
             session.close();
             System.out.println("reservation updating process failed");
             System.out.println(e);
+
+            String errorMessage =  e.getMessage();
+            int startIndex = errorMessage.indexOf("[") +1;
+            int endIndex = errorMessage.indexOf("' ") +1;  // Find the index of the first ']'
+            String extractedPart = errorMessage.substring(startIndex, endIndex).trim();
+            AlertController.errormessage(extractedPart);
             return false;
         }
     }

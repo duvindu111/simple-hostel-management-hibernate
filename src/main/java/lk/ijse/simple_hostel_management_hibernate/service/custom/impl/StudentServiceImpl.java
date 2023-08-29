@@ -3,6 +3,7 @@ package lk.ijse.simple_hostel_management_hibernate.service.custom.impl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lk.ijse.simple_hostel_management_hibernate.config.SessionFactoryConfig;
+import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
 import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.repository.RepositoryFactory;
@@ -32,6 +33,12 @@ public class StudentServiceImpl implements StudentService {
             session.close();
             System.out.println("student saving process failed");
             System.out.println(e);
+
+            String errorMessage =  e.getMessage();
+            int startIndex = errorMessage.indexOf("[") +1;
+            int endIndex = errorMessage.indexOf("' ") +1;  // Find the index of the first ']'
+            String extractedPart = errorMessage.substring(startIndex, endIndex).trim();
+            AlertController.errormessage(extractedPart);
             return false;
         }
     }
@@ -83,6 +90,12 @@ public class StudentServiceImpl implements StudentService {
             session.close();
             System.out.println("student updating process failed");
             System.out.println(e);
+
+            String errorMessage =  e.getMessage();
+            int startIndex = errorMessage.indexOf("[") +1;
+            int endIndex = errorMessage.indexOf("' ") +1;  // Find the index of the first ']'
+            String extractedPart = errorMessage.substring(startIndex, endIndex).trim();
+            AlertController.errormessage(extractedPart);
             return false;
         }
     }
@@ -97,6 +110,13 @@ public class StudentServiceImpl implements StudentService {
             transaction.commit();
             session.close();
             return true;
+        }catch(org.hibernate.exception.ConstraintViolationException e){
+            transaction.rollback();
+            session.close();
+            AlertController.errormessage("There is a room reservation done using this student id");
+            System.out.println("student deleting process failed");
+            System.out.println(e);
+            return false;
         }catch (Exception e){
             transaction.rollback();
             session.close();
