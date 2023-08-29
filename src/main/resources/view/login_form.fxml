@@ -24,13 +24,13 @@
             <Label layoutX="199.0" layoutY="96.0" text="Username :" textFill="WHITE" />
             <Label layoutX="199.0" layoutY="142.0" text="Password :" textFill="WHITE" />
             <TextField fx:id="txtUsername" layoutX="286.0" layoutY="92.0" onAction="#txtUsernameOnAction" prefHeight="26.0" prefWidth="236.0" promptText="Enter Username" style="-fx-background-radius: 15;" />
-            <JFXButton fx:id="btnLogin" layoutX="318.0" layoutY="196.0" onAction="#btnLoginOnAction" opacity="0.8" prefHeight="26.0" prefWidth="77.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 10;" text="Login">
+            <JFXButton fx:id="btnLogin" layoutX="318.0" layoutY="196.0" onAction="#btnLoginOnAction" opacity="0.8" prefHeight="26.0" prefWidth="77.0" styleClass="smallbtn" stylesheets="@../assets/styles/style.css" text="Login">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
             <Label layoutX="295.0" layoutY="284.0" text="Don't have an account?" textFill="WHITE" />
-            <JFXButton fx:id="btnNewAccount" layoutX="286.0" layoutY="309.0" onAction="#btnNewAccountOnAction" opacity="0.8" prefHeight="26.0" prefWidth="142.0" style="-fx-background-color: #ebebeb; -fx-background-radius: 10;" text="Create a new account">
+            <JFXButton fx:id="btnNewAccount" layoutX="286.0" layoutY="309.0" onAction="#btnNewAccountOnAction" opacity="0.8" prefHeight="26.0" prefWidth="142.0" styleClass="smallbtn" stylesheets="@../assets/styles/style.css" text="Create a new account">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -45,7 +45,7 @@
             </Label>
             <PasswordField fx:id="txtPassword" layoutX="286.0" layoutY="137.0" onAction="#txtPasswordOnAction" prefHeight="26.0" prefWidth="236.0" promptText="Enter Password" style="-fx-background-radius: 15;" />
             <TextField fx:id="txtDisplayPass" layoutX="286.0" layoutY="137.0" prefHeight="25.0" prefWidth="236.0" style="-fx-background-radius: 15;" visible="false" />
-            <ImageView fx:id="icnEye" fitHeight="24.0" fitWidth="26.0" layoutX="484.0" layoutY="138.0" onMouseClicked="#icnEyeOnMouseClicked" opacity="0.22" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="icnEye" fitHeight="24.0" fitWidth="26.0" layoutX="484.0" layoutY="138.0" onMouseClicked="#icnEyeOnMouseClicked" opacity="0.22" pickOnBounds="true" preserveRatio="true" styleClass="settings-icon">
                <image>
                   <Image url="@../assets/images/visible.png" />
                </image>

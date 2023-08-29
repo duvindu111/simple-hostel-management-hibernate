@@ -214,7 +214,6 @@ public class StudentFormController {
         dpDob.setValue((LocalDate) columns.get(4).getCellData(row));
         cmbGender.setValue(columns.get(5).getCellData(row).toString());
 
-        txtStId.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
         txtStName.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
         txtAddress.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
         txtContact1.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
@@ -255,16 +254,6 @@ public class StudentFormController {
     }
 
     public void txtStIdOnMouseKeyTyped(KeyEvent keyEvent) {
-        String txt = txtStId.getText();
-        if(ValidateFields.studentIdCheck(txt)){
-            txtStId.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
-            btnEnable();
-        }else{
-            txtStId.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
-            btnSave.setDisable(true);
-            btnUpdate.setDisable(true);
-            btnDelete.setDisable(true);
-        }
     }
 
     public void txtStNameOnMouseKeyTyped(KeyEvent keyEvent) {
@@ -307,8 +296,8 @@ public class StudentFormController {
     }
 
     public void btnEnable(){
-        if(ValidateFields.nameCheck(txtStName.getText()) && ValidateFields.studentIdCheck(txtStId.getText()) &&
-                ValidateFields.addressCheck(txtAddress.getText()) && ValidateFields.contactCheck(txtContact1.getText())
+        if(ValidateFields.nameCheck(txtStName.getText()) && ValidateFields.addressCheck(txtAddress.getText()) &&
+                ValidateFields.contactCheck(txtContact1.getText())
         ){
             btnSave.setDisable(false);
             btnUpdate.setDisable(false);
