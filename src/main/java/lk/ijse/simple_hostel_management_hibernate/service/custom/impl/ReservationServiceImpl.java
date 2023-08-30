@@ -97,31 +97,34 @@ public class ReservationServiceImpl implements ReservationService {
         try {
             reservationRepository.setSession(session);
             reservationRepository.save(reservationDTO.toEntity());
-
             updateAvailableRooms(reservationDTO);
 
             transaction.commit();
             session.close();
             return true;
-        } catch (Exception e) {
+        } catch (org.hibernate.exception.ConstraintViolationException e) {
             transaction.rollback();
-            e.printStackTrace();
             session.close();
             System.out.println("reservation saving process failed");
-            System.out.println(e);
-
             String errorMessage =  e.getMessage();
             int startIndex = errorMessage.indexOf("[") +1;
             int endIndex = errorMessage.indexOf("' ") +1;  // Find the index of the first ']'
             String extractedPart = errorMessage.substring(startIndex, endIndex).trim();
             AlertController.errormessage(extractedPart);
             return false;
+        }catch (Exception e){
+            transaction.rollback();
+            session.close();
+            System.out.println("reservation saving process failed");
+            System.out.println(e);
+            return false;
         }
+
     }
 
     public void updateAvailableRooms(ReservationDTO reservationDTO){
         String roomTypeId = reservationDTO.toEntity().getReservationPK().getRoomTypeId();
-        try {
+
             int count = reservationRepository.getReservationCount(roomTypeId);
 
             List<Object[]> list = reservationRepository.getMaxPersonsPerRoom(roomTypeId);
@@ -133,10 +136,7 @@ public class ReservationServiceImpl implements ReservationService {
             int available_rooms = roomQuantity - unavailable_rooms;
 
             reservationRepository.updateAvailableRooms(available_rooms, roomTypeId);
-        } catch (Exception e) {
-            System.out.println(e);
-            System.out.println("updateAvailableRooms failed");
-        }
+
     }
 
     @Override
@@ -149,6 +149,10 @@ public class ReservationServiceImpl implements ReservationService {
             transaction.commit();
             session.close();
             return true;
+        }catch(jakarta.persistence.OptimisticLockException e){
+            AlertController.warningmessage("Cannot update room type id or student id.\n" +
+                    "delete the current reservation first and add new reservation with updated details.");
+            return false;
         } catch (Exception e) {
             transaction.rollback();
             session.close();

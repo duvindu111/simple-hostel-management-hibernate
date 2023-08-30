@@ -108,6 +108,10 @@ public class RoomServiceImpl implements RoomService {
             transaction.commit();
             session.close();
             return true;
+        }catch(jakarta.persistence.OptimisticLockException e){
+            AlertController.errormessage("Room Type ID:"+roomDTO.getRoomTypeId()+" not " +
+                    "found.\nAdd the details of the room to the system first");
+            return false;
         }catch (Exception e){
             transaction.rollback();
             session.close();

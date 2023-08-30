@@ -85,11 +85,16 @@ public class StudentServiceImpl implements StudentService {
             transaction.commit();
             session.close();
             return true;
+        }catch(jakarta.persistence.OptimisticLockException e){
+            AlertController.errormessage("Student details of the student with ID:"+studentDto.getId()+" not " +
+                    "found.\nAdd the details of the student to the system first");
+            return false;
         }catch (Exception e){
             transaction.rollback();
             session.close();
             System.out.println("student updating process failed");
             System.out.println(e);
+            e.printStackTrace();
 
             String errorMessage =  e.getMessage();
             int startIndex = errorMessage.indexOf("[") +1;

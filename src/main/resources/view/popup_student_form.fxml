@@ -21,17 +21,17 @@
             <Font name="Arial Unicode MS" size="13.0" />
          </font>
       </TextField>
-      <TextField fx:id="txtStName" layoutX="380.0" layoutY="122.0" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="student name" style="-fx-background-radius: 15; -fx-background-radius: #ebebeb;">
+      <TextField fx:id="txtStName" layoutX="380.0" layoutY="122.0" onKeyTyped="#txtStNameOnMouseKeyTyped" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="student name" style="-fx-background-radius: 15; -fx-background-radius: #ebebeb;">
          <font>
             <Font name="Arial Unicode MS" size="13.0" />
          </font>
       </TextField>
-      <TextField fx:id="txtAddress" layoutX="380.0" layoutY="274.0" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="address" style="-fx-background-radius: 15; -fx-background-radius: #ebebeb;">
+      <TextField fx:id="txtAddress" layoutX="380.0" layoutY="274.0" onKeyTyped="#txtAddressOnMouseKeyTyped" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="address" style="-fx-background-radius: 15; -fx-background-radius: #ebebeb;">
          <font>
             <Font name="Arial Unicode MS" size="13.0" />
          </font>
       </TextField>
-      <TextField fx:id="txtContact1" layoutX="380.0" layoutY="198.0" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="contact no." style="-fx-background-radius: 15; -fx-background-radius: #ebebeb;">
+      <TextField fx:id="txtContact1" layoutX="380.0" layoutY="198.0" onKeyTyped="#txtContact1OnMouseKeyTyped" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="contact no." style="-fx-background-radius: 15; -fx-background-radius: #ebebeb;">
          <font>
             <Font name="Arial Unicode MS" size="13.0" />
          </font>
