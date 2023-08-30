@@ -1,9 +1,6 @@
 package lk.ijse.simple_hostel_management_hibernate.view.tm;
 
-import lk.ijse.simple_hostel_management_hibernate.embedded.StudentContact;
-
 import java.time.LocalDate;
-import java.util.List;
 
 public class StudentTM {
     private String id;

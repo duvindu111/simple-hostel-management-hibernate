@@ -1,11 +1,8 @@
 package lk.ijse.simple_hostel_management_hibernate.dto;
 
-import lk.ijse.simple_hostel_management_hibernate.embedded.StudentContact;
 import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class StudentDTO {
 

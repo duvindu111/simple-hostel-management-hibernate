@@ -2,7 +2,6 @@ package lk.ijse.simple_hostel_management_hibernate.entity;
 
 import jakarta.persistence.*;
 import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
-import lk.ijse.simple_hostel_management_hibernate.embedded.StudentContact;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
