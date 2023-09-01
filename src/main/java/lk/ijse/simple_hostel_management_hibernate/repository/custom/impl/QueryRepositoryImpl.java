@@ -1,6 +1,5 @@
 package lk.ijse.simple_hostel_management_hibernate.repository.custom.impl;
 
-import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.projection.CustomProjection;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.QueryRepository;
 import org.hibernate.Session;
@@ -21,6 +20,19 @@ public class QueryRepositoryImpl implements QueryRepository {
     }
 
     @Override
+    public List<String> loadStudentIds() {
+        String sql = "SELECT student.st_id " +
+                "FROM student " +
+                "LEFT JOIN reservation " +
+                "ON student.st_id = reservation.st_id " +
+                "WHERE reservation.st_id IS NULL";
+        Query query = session.createNativeQuery(sql);
+        List list = query.list();
+        //session.close();
+        return list;
+    }
+
+    @Override
     public List<CustomProjection> getDetailsOfStudentsWithoutKeyMoney() {
         String hql = "select new lk.ijse.simple_hostel_management_hibernate.projection.CustomProjection(" +
                 "S.studentId,S.studentAddress,S.studentDOB,S.studentGender,S.studentName,S.studentContact," +
@@ -35,19 +47,6 @@ public class QueryRepositoryImpl implements QueryRepository {
         query.setParameter("status", "NOT PAID");
         List<CustomProjection> studentWithoutKeyMoneyList = query.list();
         return studentWithoutKeyMoneyList;
-    }
-
-    @Override
-    public List<String> loadStudentIds() {
-        String sql = "SELECT student.st_id " +
-                "FROM student " +
-                "LEFT JOIN reservation " +
-                "ON student.st_id = reservation.st_id " +
-                "WHERE reservation.st_id IS NULL";
-        Query query = session.createNativeQuery(sql);
-        List list = query.list();
-        //session.close();
-        return list;
     }
 
 }

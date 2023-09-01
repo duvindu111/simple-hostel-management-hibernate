@@ -36,7 +36,7 @@
             <Font name="Arial Unicode MS" size="13.0" />
          </font>
       </TextField>
-      <JFXButton fx:id="btnSave" layoutX="380.0" layoutY="502.0" onAction="#btnSaveOnAction" prefHeight="30.0" prefWidth="318.0" style="-fx-background-color: grey; -fx-background-radius: 5;" text="+ Add Student">
+      <JFXButton fx:id="btnSave" layoutX="380.0" layoutY="502.0" onAction="#btnSaveOnAction" prefHeight="30.0" prefWidth="318.0" style="-fx-background-color: linear-gradient(to right, #E9F8FF, #90B2D8, #C1E3FF); -fx-background-radius: 5;" text="+ Add Student">
          <font>
             <Font name="Arial" size="13.0" />
          </font>
@@ -49,5 +49,11 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ComboBox>
+      <Label layoutX="380.0" layoutY="29.0" text="student id:" textFill="WHITE" />
+      <Label layoutX="380.0" layoutY="104.0" text="student name:" textFill="WHITE" />
+      <Label layoutX="380.0" layoutY="180.0" text="contact no:" textFill="WHITE" />
+      <Label layoutX="380.0" layoutY="256.0" text="address:" textFill="WHITE" />
+      <Label layoutX="380.0" layoutY="332.0" text="gender:" textFill="WHITE" />
+      <Label layoutX="380.0" layoutY="408.0" text="date of birth:" textFill="WHITE" />
    </children>
 </AnchorPane>
