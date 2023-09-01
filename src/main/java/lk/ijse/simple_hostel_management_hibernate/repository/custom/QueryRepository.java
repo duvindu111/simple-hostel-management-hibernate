@@ -11,4 +11,6 @@ public interface QueryRepository extends SuperRepository {
     public void setSession(Session session);
 
     List<CustomProjection> getDetailsOfStudentsWithoutKeyMoney();
+
+    List<String> loadStudentIds();
 }

@@ -52,7 +52,7 @@
       <JFXButton fx:id="btnUpdate" layoutX="1288.0" layoutY="225.0" onAction="#btnUpdateOnAction" prefHeight="26.0" prefWidth="70.0" styleClass="smallbtn" stylesheets="@../assets/styles/style.css" text="update" />
       <JFXButton fx:id="btnSave" layoutX="1200.0" layoutY="225.0" onAction="#btnSaveOnAction" prefHeight="26.0" prefWidth="70.0" styleClass="smallbtn" stylesheets="@../assets/styles/style.css" text="save" />
       <DatePicker fx:id="dpDate" layoutX="750.0" layoutY="60.0" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="reservation date" />
-      <ComboBox fx:id="cmbStudentId" layoutX="1135.0" layoutY="60.0" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="select student id" style="-fx-background-radius: 15;">
+      <ComboBox fx:id="cmbStudentId" layoutX="1135.0" layoutY="60.0" onMouseClicked="#cmbStudentIdOnMouseClicked" opacity="0.8" prefHeight="30.0" prefWidth="318.0" promptText="select student id" style="-fx-background-radius: 15;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

@@ -9,7 +9,9 @@ import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.entity.Reservation;
 import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.repository.RepositoryFactory;
+import lk.ijse.simple_hostel_management_hibernate.repository.custom.QueryRepository;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.ReservationRepository;
+import lk.ijse.simple_hostel_management_hibernate.repository.custom.RoomRepository;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.ReservationService;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -20,14 +22,16 @@ import java.util.List;
 public class ReservationServiceImpl implements ReservationService {
 
     ReservationRepository reservationRepository = RepositoryFactory.getRepositoryFactory().getRepository(RepositoryFactory.RepositoryTypes.RESERVATION);
+    RoomRepository roomRepository = RepositoryFactory.getRepositoryFactory().getRepository(RepositoryFactory.RepositoryTypes.ROOM);
+    QueryRepository queryRepository = RepositoryFactory.getRepositoryFactory().getRepository(RepositoryFactory.RepositoryTypes.QUERY);
 
     @Override
     public List<String> loadStudentIds() {
         Session session = SessionFactoryConfig.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try {
-            reservationRepository.setSession(session);
-            List<String> ids = reservationRepository.loadStudentIds();
+            queryRepository.setSession(session);
+            List<String> ids = queryRepository.loadStudentIds();
             transaction.commit();
             session.close();
             return ids;
@@ -45,8 +49,8 @@ public class ReservationServiceImpl implements ReservationService {
         Session session = SessionFactoryConfig.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try {
-            reservationRepository.setSession(session);
-            List<String> ids = reservationRepository.loadRoomTypeIds();
+            roomRepository.setSession(session);
+            List<String> ids = roomRepository.loadRoomTypeIds();
             transaction.commit();
             session.close();
             return ids;

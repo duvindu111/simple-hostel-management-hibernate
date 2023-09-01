@@ -1,6 +1,7 @@
 package lk.ijse.simple_hostel_management_hibernate.repository.custom.impl;
 
 import lk.ijse.simple_hostel_management_hibernate.entity.Reservation;
+import lk.ijse.simple_hostel_management_hibernate.entity.Room;
 import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.ReservationRepository;
 import org.hibernate.Session;
@@ -18,15 +19,6 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     @Override
     public void setSession(Session session) {
         this.session = session;
-    }
-
-    @Override
-    public List<String> loadRoomTypeIds() {
-        String sql = "SELECT room_type_id FROM room";
-        Query query = session.createNativeQuery(sql);
-        List list = query.list();
-        //session.close();
-        return list;
     }
 
     @Override
@@ -50,11 +42,17 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public void updateAvailableRooms(int available_rooms, String roomTypeId) {
-        String sql = "UPDATE Room r SET r.availableRooms = :available_room_qty WHERE r.roomTypeId= :room_type_id";
+       /* String sql = "UPDATE Room r SET r.availableRooms = :available_room_qty WHERE r.roomTypeId= :room_type_id";
         Query query = session.createQuery(sql);
         query.setParameter("available_room_qty", available_rooms);
         query.setParameter("room_type_id", roomTypeId);
-        query.executeUpdate();
+        query.executeUpdate();*/
+
+        Room room = session.get(Room.class,roomTypeId);
+        System.out.println(room);
+        room.setAvailableRooms(available_rooms);
+        System.out.println(room);
+        session.merge(room);
     }
 
     @Override
@@ -98,12 +96,4 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         return reservationList;
     }
 
-    @Override
-    public List<String> loadStudentIds() {
-        String sql = "SELECT st_id FROM student";
-        Query query = session.createNativeQuery(sql);
-        List list = query.list();
-        //session.close();
-        return list;
-    }
 }

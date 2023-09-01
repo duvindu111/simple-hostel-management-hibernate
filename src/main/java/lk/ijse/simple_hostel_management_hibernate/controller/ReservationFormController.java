@@ -142,8 +142,6 @@ public class ReservationFormController {
         btnBack.setGraphic(imageView);
 
         cmbPaymentStatus.getItems().addAll("PAID", "NOT PAID");
-
-        loadStIds();
         loadRoomTypeIds();
 
         setDataToTableView();
@@ -436,5 +434,9 @@ public class ReservationFormController {
 
     public void btnClearOnAction(ActionEvent actionEvent) {
         clearTxtFields();
+    }
+
+    public void cmbStudentIdOnMouseClicked(MouseEvent mouseEvent) {
+        loadStIds();
     }
 }

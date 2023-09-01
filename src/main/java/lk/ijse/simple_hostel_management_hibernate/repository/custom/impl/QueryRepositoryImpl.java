@@ -37,4 +37,17 @@ public class QueryRepositoryImpl implements QueryRepository {
         return studentWithoutKeyMoneyList;
     }
 
+    @Override
+    public List<String> loadStudentIds() {
+        String sql = "SELECT student.st_id " +
+                "FROM student " +
+                "LEFT JOIN reservation " +
+                "ON student.st_id = reservation.st_id " +
+                "WHERE reservation.st_id IS NULL";
+        Query query = session.createNativeQuery(sql);
+        List list = query.list();
+        //session.close();
+        return list;
+    }
+
 }

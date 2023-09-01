@@ -9,11 +9,7 @@ import java.util.List;
 
 public interface ReservationRepository extends CrudRepository<Reservation,String> {
 
-    List<String> loadStudentIds();
-
     public void setSession(Session session);
-
-    List<String> loadRoomTypeIds();
 
     int getReservationCount(String roomTypeId);
 

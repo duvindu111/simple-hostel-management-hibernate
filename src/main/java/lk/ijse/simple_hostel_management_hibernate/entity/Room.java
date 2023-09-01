@@ -87,6 +87,17 @@ public class Room {
         this.availableRooms = availableRooms;
     }
 
+    /*@Override
+    public String toString() {
+        return "Room{" +
+                "roomTypeId='" + roomTypeId + '\'' +
+                ", roomType='" + roomType + '\'' +
+                ", perRoom=" + perRoom +
+                ", keyMoney='" + keyMoney + '\'' +
+                ", roomQuantity=" + roomQuantity +
+                '}';
+    }*/
+
     @Override
     public String toString() {
         return "Room{" +
@@ -95,6 +106,7 @@ public class Room {
                 ", perRoom=" + perRoom +
                 ", keyMoney='" + keyMoney + '\'' +
                 ", roomQuantity=" + roomQuantity +
+                ", availableRooms=" + availableRooms +
                 '}';
     }
 }

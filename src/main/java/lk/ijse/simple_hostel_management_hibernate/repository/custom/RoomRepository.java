@@ -12,4 +12,6 @@ public interface RoomRepository extends CrudRepository<Room,String> {
     public void setSession(Session session);
 
     List<RoomProjection> getDetailsForRoomAvailabily();
+
+    List<String> loadRoomTypeIds();
 }
