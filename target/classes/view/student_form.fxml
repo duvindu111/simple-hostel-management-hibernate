@@ -70,5 +70,11 @@
          </cursor>
       </ComboBox>
       <JFXButton fx:id="btnClear" layoutX="380.0" layoutY="225.0" onAction="#btnClearOnAction" opacity="0.8" prefHeight="26.0" prefWidth="70.0" styleClass="smallbtn" stylesheets="@../assets/styles/style.css" text="clear" />
+      <Label layoutX="387.0" layoutY="28.0" text="student id:" textFill="WHITE" />
+      <Label layoutX="387.0" layoutY="96.0" text="contact no:" textFill="WHITE" />
+      <Label layoutX="756.0" layoutY="96.0" text="date of birth:" textFill="WHITE" />
+      <Label layoutX="756.0" layoutY="28.0" text="student name:" textFill="WHITE" />
+      <Label layoutX="1129.0" layoutY="28.0" text="address:" textFill="WHITE" />
+      <Label layoutX="1129.0" layoutY="96.0" text="gender:" textFill="WHITE" />
    </children>
 </AnchorPane>

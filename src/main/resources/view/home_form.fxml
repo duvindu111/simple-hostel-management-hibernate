@@ -85,7 +85,15 @@
                   <Image url="@../assets/images/close.png" />
                </image>
             </ImageView>
-            <Label fx:id="lblLogOut" layoutX="21.0" layoutY="82.0" onMouseClicked="#lblLogOutOnMouseClicked" styleClass="lbl-forgot-pass" stylesheets="@../assets/styles/style.css" text="-&gt; Log Out">
+            <Label fx:id="lblLogOut" layoutX="21.0" layoutY="103.0" onMouseClicked="#lblLogOutOnMouseClicked" styleClass="lbl-forgot-pass" stylesheets="@../assets/styles/style.css" text="-&gt; Log Out">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="lblChangeUsername" layoutX="21.0" layoutY="80.0" onMouseClicked="#lblChangeUsernameOnMouseClicked" styleClass="lbl-forgot-pass" stylesheets="@../assets/styles/style.css" text="-&gt; Change Username">
                <font>
                   <Font size="13.0" />
                </font>
@@ -157,6 +165,33 @@
                   <Image url="@../assets/images/close.png" />
                </image>
             </ImageView>
+            <Group fx:id="grpNewUsername" layoutX="62.0" layoutY="223.0" visible="false">
+               <children>
+                  <Label layoutX="2.0" text="Enter your new username :" />
+                  <PasswordField fx:id="txtNewUser" layoutY="33.0" onKeyTyped="#txtNewPassOnKeyTyped" prefHeight="26.0" prefWidth="155.0" style="-fx-background-radius: 15;" />
+                  <JFXButton fx:id="btnSubmitUsername" layoutX="32.0" layoutY="133.0" onAction="#btnSubmitUsernameOnAction" prefHeight="26.0" prefWidth="82.0" styleClass="submitbtn" stylesheets="@../assets/styles/style.css" text="Submit">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Label fx:id="lblUserLength" layoutX="3.0" layoutY="73.0" text="username must be at least 8 " wrapText="true">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblCharactersUser" layoutX="38.0" layoutY="90.0" text="characters long" wrapText="true">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblNewUser" layoutX="11.0" layoutY="32.0" prefHeight="28.0" prefWidth="108.0" text="Label" visible="false" />
+                  <ImageView fx:id="icnEyeUser" fitHeight="28.0" fitWidth="25.0" layoutX="125.0" layoutY="34.0" onMouseEntered="#icnEyeUserOnMouseEntered" onMouseExited="#icnEyeUserOnMouseExited" opacity="0.2" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/images/visible.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
          </children>
       </Group>
       <Label fx:id="lblSettings" layoutX="97.0" layoutY="753.0" text="Settings" textFill="WHITE" underline="true" visible="false" />

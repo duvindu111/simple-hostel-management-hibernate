@@ -49,7 +49,7 @@ public class AlertController {
     }
 
     public static boolean okconfirmmessage(String msg){
-        Alert alert= new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert= new Alert(Alert.AlertType.NONE);
         alert.setTitle("Confirmation");
         alert.setHeaderText(null);
         alert.setContentText(msg);

@@ -75,14 +75,7 @@ public class StudentDTO {
 
     @Override
     public String toString() {
-        return "StudentDTO{" +
-                "id='" + id + '\'' +
-                ", address='" + address + '\'' +
-                ", dob=" + dob +
-                ", gender='" + gender + '\'' +
-                ", name='" + name + '\'' +
-                ", studentContact='" + studentContact + '\'' +
-                '}';
+        return "id= "+id+" | address= "+address+" | dob= "+dob+" | gender= "+gender+" | name= "+name+" | contact= "+studentContact+".";
     }
 
     public Student toEntity(){

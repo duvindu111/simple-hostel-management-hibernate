@@ -1,6 +1,5 @@
 package lk.ijse.simple_hostel_management_hibernate.dto;
 
-import lk.ijse.simple_hostel_management_hibernate.embedded.ReservationPK;
 import lk.ijse.simple_hostel_management_hibernate.entity.Reservation;
 
 import java.time.LocalDate;
@@ -66,25 +65,16 @@ public class ReservationDTO {
 
     @Override
     public String toString() {
-        return "ReservationDTO{" +
-                "date=" + date +
-                ", reservationId='" + reservationId + '\'' +
-                ", roomTypeId='" + roomTypeId + '\'' +
-                ", studentId='" + studentId + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+        return "date= "+date+" | reservationId= "+reservationId+" | roomTypeId= "+roomTypeId+" | studentId= "
+                +studentId+" | status= "+status;
     }
 
     public Reservation toEntity(){
         Reservation reservation = new Reservation();
         reservation.setReservationDate(this.date);
         reservation.setReservationId(this.reservationId);
-        reservation.setReservationPK(
-             new ReservationPK(
-                     this.studentId,
-                     this.roomTypeId
-             )
-        );
+        reservation.setRoomTypeId(this.roomTypeId);
+        reservation.setStudentId(this.studentId);
         reservation.setReservationStatus(this.status);
         return reservation;
     }

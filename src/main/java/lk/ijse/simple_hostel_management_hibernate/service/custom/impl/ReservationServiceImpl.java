@@ -7,6 +7,7 @@ import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertControlle
 import lk.ijse.simple_hostel_management_hibernate.dto.ReservationDTO;
 import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.entity.Reservation;
+import lk.ijse.simple_hostel_management_hibernate.entity.Room;
 import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.repository.RepositoryFactory;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.QueryRepository;
@@ -76,8 +77,8 @@ public class ReservationServiceImpl implements ReservationService {
                         new ReservationDTO(
                                 reservation.getReservationDate(),
                                 reservation.getReservationId(),
-                                reservation.getReservationPK().getRoomTypeId(),
-                                reservation.getReservationPK().getStudentId(),
+                                reservation.getRoomTypeId(),
+                                reservation.getStudentId(),
                                 reservation.getReservationStatus()
                         )
                 );
@@ -127,7 +128,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     public void updateAvailableRooms(ReservationDTO reservationDTO){
-        String roomTypeId = reservationDTO.toEntity().getReservationPK().getRoomTypeId();
+        String roomTypeId = reservationDTO.toEntity().getRoomTypeId();
 
             int count = reservationRepository.getReservationCount(roomTypeId);
 
@@ -247,6 +248,25 @@ public class ReservationServiceImpl implements ReservationService {
             System.out.println("getAvailableRoomsCount failed");
             System.out.println(e);
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Reservation getReseravationAvailabilty(ReservationDTO reservationDTO) {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        Transaction transaction =session.beginTransaction();
+        try {
+            reservationRepository.setSession(session);
+            Reservation reservation=reservationRepository.get(reservationDTO.getReservationId());
+            transaction.commit();
+            session.close();
+            return reservation;
+        }catch (Exception e){
+            transaction.rollback();
+            session.close();
+            System.out.println("getReseravationAvailabilty failed");
+            System.out.println(e);
             return null;
         }
     }

@@ -157,7 +157,25 @@ public class HomeFormController {
     private Label lblLogOut;
 
     @FXML
+    private Group grpNewUsername;
+
+    @FXML
     private TableView<RoomAvailabilityTM> tableRoomAvailability;
+
+    @FXML
+    private PasswordField txtNewUser;
+
+    @FXML
+    private Label lblUserLength;
+
+    @FXML
+    private Label lblCharactersUser;
+
+    @FXML
+    private ImageView icnEyeUser;
+
+    @FXML
+    private Label lblNewUser;
 
     HomeService homeService = ServiceFactory.getServiceFactory().getservice(ServiceFactory.ServiceTypes.HOME);
 
@@ -254,10 +272,20 @@ public class HomeFormController {
     public void tableStudentOnMouseClicked(MouseEvent mouseEvent) {
     }
 
+    String userOrPass;
+
     public void lblChangePassOnMouseClicked(MouseEvent mouseEvent) {
         grpChangePass.setVisible(true);
         grpCurrentPass.setVisible(true);
         grpNewPass.setVisible(false);
+        userOrPass = "pass";
+    }
+
+    public void lblChangeUsernameOnMouseClicked(MouseEvent mouseEvent) {
+        grpChangePass.setVisible(true);
+        grpCurrentPass.setVisible(true);
+        grpNewUsername.setVisible(false);
+        userOrPass = "user";
     }
 
     public void icnSettingsOnMouseClicked(MouseEvent mouseEvent) {
@@ -280,24 +308,58 @@ public class HomeFormController {
         grpChangePass.setVisible(false);
         grpCurrentPass.setVisible(true);
         grpNewPass.setVisible(false);
+        grpNewUsername.setVisible(false);
     }
 
     static String username;
+    String currentPass;
 
     public static void getUsernameFromLogin(String txt) {
         username = txt;
     }
 
     public void txtCurrentPassOnAction(ActionEvent actionEvent) {
-        String currentPass = txtCurrentPass.getText();
+        currentPass = txtCurrentPass.getText();
         String dbCurrentPass = homeService.checkCurrentPass(username);
 
         if (currentPass.equals(dbCurrentPass)) {
             txtCurrentPass.setText("");
             grpCurrentPass.setVisible(false);
-            grpNewPass.setVisible(true);
+            if (userOrPass.equals("pass")) {
+                grpNewPass.setVisible(true);
+            } else if (userOrPass.equals("user")) {
+                grpNewUsername.setVisible(true);
+            }
         } else {
             AlertController.errormessage("wrong password\nplease try again");
+        }
+    }
+
+    public void btnSubmitUsernameOnAction(ActionEvent actionEvent) {
+        String newUsername = txtNewUser.getText();
+        if (!newUsername.isEmpty()) {
+            if (newUsername.length() >= 8) {
+                lblUserLength.setStyle("-fx-text-fill: black");
+                lblCharactersUser.setStyle("-fx-text-fill: black");
+                UserDTO delUserDto = new UserDTO(username,currentPass);
+                System.out.println(delUserDto);
+                boolean deleted = homeService.deleteUser(delUserDto);
+                UserDTO saveUserDto = new UserDTO(newUsername, currentPass);
+                System.out.println(saveUserDto);
+                boolean saved = homeService.saveUser(saveUserDto);
+                if (saved) {
+                    username=newUsername;
+                    txtNewUser.setText("");
+                    grpChangePass.setVisible(false);
+                    grpCurrentPass.setVisible(true);
+                    grpNewUsername.setVisible(false);
+                } else {
+                    AlertController.errormessage("Process Interrupted.\nThe username didn't change.");
+                }
+            } else {
+                lblUserLength.setStyle("-fx-text-fill: red");
+                lblCharactersUser.setStyle("-fx-text-fill: red");
+            }
         }
     }
 
@@ -334,7 +396,6 @@ public class HomeFormController {
     }
 
     String curPass;
-
     public void icnEyeTopOnMouseEntered(MouseEvent mouseEvent) {
         curPass = txtCurrentPass.getText();
         txtCurrentPass.setText("");
@@ -381,7 +442,24 @@ public class HomeFormController {
         lblConNewPass.setVisible(false);
         txtConNewPass.setText(conNewPass);
         txtConNewPass.requestFocus();
-        txtConNewPass.positionCaret(txtNewPass.getLength());
+        txtConNewPass.positionCaret(txtConNewPass.getLength());
+    }
+
+    String newUsername;
+
+    public void icnEyeUserOnMouseEntered(MouseEvent mouseEvent) {
+        newUsername = txtNewUser.getText();
+        txtNewUser.setText("");
+        lblNewUser.setText(newUsername);
+        lblNewUser.setVisible(true);
+        lblNewUser.requestFocus();
+    }
+
+    public void icnEyeUserOnMouseExited(MouseEvent mouseEvent) {
+        lblNewUser.setVisible(false);
+        txtNewUser.setText(newUsername);
+        txtNewUser.requestFocus();
+        txtNewUser.positionCaret(txtNewUser.getLength());
     }
 
     public void txtNewPassOnKeyTyped(KeyEvent keyEvent) {

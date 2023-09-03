@@ -8,7 +8,6 @@ import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.repository.RepositoryFactory;
 import lk.ijse.simple_hostel_management_hibernate.repository.custom.StudentRepository;
-import lk.ijse.simple_hostel_management_hibernate.repository.custom.impl.StudentRepositoryImpl;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.StudentService;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -128,6 +127,26 @@ public class StudentServiceImpl implements StudentService {
             System.out.println("student deleting process failed");
             System.out.println(e);
             return false;
+        }
+    }
+
+    @Override
+    public Student getStudentAvailabilty(StudentDTO studentDTO) {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        Transaction transaction =session.beginTransaction();
+        try {
+            studentRepository.setSession(session);
+            Student student=studentRepository.get(studentDTO.getId());
+            System.out.println(student);
+            transaction.commit();
+            session.close();
+            return student;
+        }catch (Exception e){
+            transaction.rollback();
+            session.close();
+            System.out.println("getStudentAvailabilty failed");
+            System.out.println(e);
+            return null;
         }
     }
 

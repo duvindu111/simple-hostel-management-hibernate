@@ -13,6 +13,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -128,5 +129,6 @@
       <Label layoutX="750.0" layoutY="37.0" text="reservation date:" textFill="WHITE" />
       <Label layoutX="750.0" layoutY="118.0" text="payment status:" textFill="WHITE" />
       <Label layoutX="1135.0" layoutY="37.0" text="student id:" textFill="WHITE" />
+      <Line fx:id="lineClear" endX="65.60003662109375" layoutX="381.0" layoutY="265.0" startX="3.20001220703125" stroke="RED" strokeWidth="2.0" visible="false" />
    </children>
 </AnchorPane>

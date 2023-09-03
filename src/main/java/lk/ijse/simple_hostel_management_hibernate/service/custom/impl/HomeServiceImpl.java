@@ -91,7 +91,6 @@ public class HomeServiceImpl implements HomeService {
             roomRepository.setSession(session);
             List<RoomProjection> customList = roomRepository.getDetailsForRoomAvailabily();
             ObservableList<RoomProjection> customObList = FXCollections.observableArrayList(customList);
-
             transaction.commit();
             session.close();
             return customObList;
@@ -103,4 +102,43 @@ public class HomeServiceImpl implements HomeService {
             return null;
         }
     }
+
+    @Override
+    public boolean deleteUser(UserDTO delUserDto) {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        Transaction transaction =session.beginTransaction();
+        try {
+            userRepository.setSession(session);
+            userRepository.delete(delUserDto.toEntity());
+            transaction.commit();
+            session.close();
+            return true;
+        }catch (Exception e){
+            transaction.rollback();
+            session.close();
+            System.out.println("deleteUser failed");
+            System.out.println(e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean saveUser(UserDTO saveUserDto) {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        Transaction transaction =session.beginTransaction();
+        try {
+            userRepository.setSession(session);
+            userRepository.save(saveUserDto.toEntity());
+            transaction.commit();
+            session.close();
+            return true;
+        }catch (Exception e){
+            transaction.rollback();
+            session.close();
+            System.out.println("saveUser failed");
+            System.out.println(e);
+            return false;
+        }
+    }
+
 }

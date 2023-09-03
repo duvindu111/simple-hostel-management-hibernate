@@ -25,7 +25,8 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     @Override
     public Student get(String s) {
-        return null;
+        Student student =session.get(Student.class,s);
+        return student;
     }
 
     @Override

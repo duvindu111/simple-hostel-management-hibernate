@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import lk.ijse.simple_hostel_management_hibernate.config.SessionFactoryConfig;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
 import lk.ijse.simple_hostel_management_hibernate.dto.RoomDTO;
-import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
 import lk.ijse.simple_hostel_management_hibernate.entity.Room;
 import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.repository.RepositoryFactory;
@@ -64,6 +63,25 @@ public class RoomServiceImpl implements RoomService {
             System.out.println("room type deleting process failed");
             System.out.println(e);
             return false;
+        }
+    }
+
+    @Override
+    public Room getRoomAvailabilty(RoomDTO roomDTO) {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        Transaction transaction =session.beginTransaction();
+        try {
+            roomRepository.setSession(session);
+            Room room=roomRepository.get(roomDTO.getRoomTypeId());
+            transaction.commit();
+            session.close();
+            return room;
+        }catch (Exception e){
+            transaction.rollback();
+            session.close();
+            System.out.println("getRoomAvailabilty failed");
+            System.out.println(e);
+            return null;
         }
     }
 

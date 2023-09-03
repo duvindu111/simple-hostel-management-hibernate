@@ -66,5 +66,10 @@
          </font>
       </TextField>
       <JFXButton fx:id="btnClear" layoutX="380.0" layoutY="225.0" onAction="#btnClearOnAction" opacity="0.8" prefHeight="26.0" prefWidth="70.0" styleClass="smallbtn" stylesheets="@../assets/styles/style.css" text="clear" />
+      <Label layoutX="380.0" layoutY="29.0" text="room type id:" textFill="WHITE" />
+      <Label layoutX="380.0" layoutY="98.0" text="total no of rooms:" textFill="WHITE" />
+      <Label layoutX="756.0" layoutY="29.0" text="room type:" textFill="WHITE" />
+      <Label layoutX="756.0" layoutY="98.0" text="max no of persons per room:" textFill="WHITE" />
+      <Label layoutX="1129.0" layoutY="29.0" text="key money:" textFill="WHITE" />
    </children>
 </AnchorPane>

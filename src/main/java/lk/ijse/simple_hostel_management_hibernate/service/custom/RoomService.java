@@ -2,6 +2,7 @@ package lk.ijse.simple_hostel_management_hibernate.service.custom;
 
 import javafx.collections.ObservableList;
 import lk.ijse.simple_hostel_management_hibernate.dto.RoomDTO;
+import lk.ijse.simple_hostel_management_hibernate.entity.Room;
 import lk.ijse.simple_hostel_management_hibernate.service.SuperService;
 
 public interface RoomService extends SuperService {
@@ -13,4 +14,6 @@ public interface RoomService extends SuperService {
     boolean saveRoomType(RoomDTO roomDTO);
 
     boolean deleteRoomType(RoomDTO roomDTO);
+
+    Room getRoomAvailabilty(RoomDTO roomDTO);
 }

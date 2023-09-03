@@ -14,4 +14,8 @@ public interface HomeService extends SuperService {
     boolean changePassword(UserDTO userDto);
 
     ObservableList<RoomProjection> getDetailsToRoomAvaTableView();
+
+    boolean deleteUser(UserDTO delUserDto);
+
+    boolean saveUser(UserDTO saveUserDto);
 }

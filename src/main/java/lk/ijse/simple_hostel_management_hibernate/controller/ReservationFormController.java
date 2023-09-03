@@ -16,11 +16,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.ValidateFields;
 import lk.ijse.simple_hostel_management_hibernate.dto.ReservationDTO;
 import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
+import lk.ijse.simple_hostel_management_hibernate.entity.Reservation;
+import lk.ijse.simple_hostel_management_hibernate.entity.Room;
 import lk.ijse.simple_hostel_management_hibernate.service.ServiceFactory;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.ReservationService;
 import lk.ijse.simple_hostel_management_hibernate.view.tm.ReservationTM;
@@ -126,6 +129,12 @@ public class ReservationFormController {
     @FXML
     private JFXButton btnKeyMoney;
 
+    @FXML
+    private JFXButton btnClear;
+
+    @FXML
+    private Line lineClear;
+
     ReservationService reservationService = ServiceFactory.getServiceFactory().getservice(ServiceFactory.ServiceTypes.RESERVATION);
 
     @FXML
@@ -206,17 +215,25 @@ public class ReservationFormController {
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
         boolean noEmptyFields = noEmptyValuesInTextFields();
+        ReservationDTO reservationDTO = getDetailsInTextFields();
         if (noEmptyFields) {
-            ReservationDTO reservationDTO = getDetailsInTextFields();
-            boolean success = reservationService.deleteReservation(reservationDTO);
-            if (success) {
-                AlertController.confirmmessage("reservation details deleted successfully");
-                setDataToTableView();
-                clearTxtFields();
+            Reservation reservation = reservationService.getReseravationAvailabilty(reservationDTO);
+            if (reservation != null) {
+                boolean result = AlertController.okconfirmmessage("Are you sure you want to delete reservation\n " + reservationDTO.toString());
+                if (result) {
+                    boolean success = reservationService.deleteReservation(reservationDTO);
+                    if (success) {
+                        AlertController.confirmmessage("reservation details deleted successfully");
+                        setDataToTableView();
+                        clearTxtFields();
+                    } else {
+                        AlertController.errormessage("reservation details deletion process unsuccessful");
+                    }
+                }
             } else {
-                AlertController.errormessage("reservation details deletion process unsuccessful");
+                AlertController.errormessage("reservation id " + reservationDTO.getReservationId() + " doesn't exist");
             }
-        }else{
+        } else {
             AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
@@ -233,7 +250,7 @@ public class ReservationFormController {
             } else {
                 AlertController.errormessage("reservation details updating process unsuccessful");
             }
-        }else{
+        } else {
             AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
@@ -250,7 +267,7 @@ public class ReservationFormController {
             } else {
                 AlertController.errormessage("reservation details saving process unsuccessful");
             }
-        }else{
+        } else {
             AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
@@ -271,6 +288,8 @@ public class ReservationFormController {
         cmbRoomTypeId.setValue("");
         cmbStudentId.setValue("");
         cmbPaymentStatus.setValue("");
+
+        btnDelete.setDisable(true);
     }
 
     private void setDataToTableView() {

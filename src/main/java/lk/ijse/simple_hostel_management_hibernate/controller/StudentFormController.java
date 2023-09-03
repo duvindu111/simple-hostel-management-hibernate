@@ -1,12 +1,6 @@
 package lk.ijse.simple_hostel_management_hibernate.controller;
 
 import com.jfoenix.controls.JFXButton;
-
-import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,9 +17,15 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.ValidateFields;
 import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
+import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.service.ServiceFactory;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.StudentService;
 import lk.ijse.simple_hostel_management_hibernate.view.tm.StudentTM;
+
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
 
 public class StudentFormController {
 
@@ -103,13 +103,13 @@ public class StudentFormController {
         ImageView imageView = new ImageView(image);
         btnBack.setGraphic(imageView);
 
-        cmbGender.getItems().addAll("MALE","FEMALE","OTHER");
+        cmbGender.getItems().addAll("MALE", "FEMALE", "OTHER");
 
         setDataToTableView();
         setCellValueFactory();
     }
 
-    public StudentDTO getDetailsInTextFields(){
+    public StudentDTO getDetailsInTextFields() {
         StudentDTO studentDTO = new StudentDTO();
         studentDTO.setId(txtStId.getText());
         studentDTO.setAddress(txtAddress.getText());
@@ -124,16 +124,24 @@ public class StudentFormController {
     void btnDeleteOnAction(ActionEvent event) {
         StudentDTO studentDTO = getDetailsInTextFields();
         boolean emptyFields = noEmptyValuesInTextFields();
-        if(emptyFields) {
-            boolean deleted = studentService.deleteStudent(studentDTO);
-            setDataToTableView();
-            if (deleted) {
-                AlertController.confirmmessage("student details deleted successfully");
-                clearTxtFields();
-            } else {
-                AlertController.errormessage("student details deleting process unsuccessful");
+        if (emptyFields) {
+            Student student = studentService.getStudentAvailabilty(studentDTO);
+            if (student!=null) {
+                boolean result = AlertController.okconfirmmessage("Are you sure you want to delete student\n "+studentDTO.toString());
+                if(result){
+                    boolean deleted = studentService.deleteStudent(studentDTO);
+                    setDataToTableView();
+                    if (deleted) {
+                        AlertController.confirmmessage("student details deleted successfully");
+                        clearTxtFields();
+                    } else {
+                        AlertController.errormessage("student details deleting process unsuccessful");
+                    }
+                }
+            }else{
+                AlertController.errormessage("student id "+studentDTO.getId()+" doesn't exist");
             }
-        }else{
+        } else {
             AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
@@ -142,7 +150,7 @@ public class StudentFormController {
     void btnSaveOnAction(ActionEvent event) {
         StudentDTO studentDTO = getDetailsInTextFields();
         boolean emptyFields = noEmptyValuesInTextFields();
-        if(emptyFields) {
+        if (emptyFields) {
             boolean saved = studentService.saveStudent(studentDTO);
             setDataToTableView();
             if (saved) {
@@ -151,7 +159,7 @@ public class StudentFormController {
             } else {
                 AlertController.errormessage("student details saving process unsuccessful");
             }
-        }else{
+        } else {
             AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
@@ -160,7 +168,7 @@ public class StudentFormController {
     void btnUpdateOnAction(ActionEvent event) {
         StudentDTO studentDTO = getDetailsInTextFields();
         boolean emptyFields = noEmptyValuesInTextFields();
-        if(emptyFields) {
+        if (emptyFields) {
             boolean updated = studentService.updateStudent(studentDTO);
             setDataToTableView();
             if (updated) {
@@ -169,15 +177,15 @@ public class StudentFormController {
             } else {
                 AlertController.errormessage("student details updating process unsuccessful");
             }
-        }else{
+        } else {
             AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
 
-    public void setDataToTableView(){
+    public void setDataToTableView() {
         ObservableList<StudentDTO> studentDtoList = studentService.getDetailsToTableView();
         ObservableList<StudentTM> studentTmList = FXCollections.observableArrayList();
-        for (StudentDTO dto : studentDtoList){
+        for (StudentDTO dto : studentDtoList) {
             studentTmList.add(
                     new StudentTM(
                             dto.getId(),
@@ -192,7 +200,7 @@ public class StudentFormController {
         tableStudent.setItems(studentTmList);
     }
 
-    public void setCellValueFactory(){
+    public void setCellValueFactory() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -223,7 +231,7 @@ public class StudentFormController {
         btnDelete.setDisable(false);
     }
 
-    void clearTxtFields(){
+    void clearTxtFields() {
         txtStId.setText("");
         txtStName.setText("");
         txtContact1.setText("");
@@ -238,15 +246,15 @@ public class StudentFormController {
         studentFormAncPane.getChildren().add(load);
     }
 
-    public boolean noEmptyValuesInTextFields(){
+    public boolean noEmptyValuesInTextFields() {
         String stId = txtStId.getText();
         String stAdd = txtAddress.getText();
         LocalDate dob = dpDob.getValue();
         String gender = cmbGender.getValue();
         String name = txtStName.getText();
         String contact = txtContact1.getText();
-        if (!stId.isEmpty() && !stAdd.isEmpty() && !contact.isEmpty() && gender!=null && dob!=null &&
-                !gender.isEmpty() && !name.isEmpty() ) {
+        if (!stId.isEmpty() && !stAdd.isEmpty() && !contact.isEmpty() && gender != null && dob != null &&
+                !gender.isEmpty() && !name.isEmpty()) {
             return true;
         } else {
             return false;
@@ -258,10 +266,10 @@ public class StudentFormController {
 
     public void txtStNameOnMouseKeyTyped(KeyEvent keyEvent) {
         String txt = txtStName.getText();
-        if(ValidateFields.nameCheck(txt)){
+        if (ValidateFields.nameCheck(txt)) {
             txtStName.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnEnable();
-        }else{
+        } else {
             txtStName.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnSave.setDisable(true);
             btnUpdate.setDisable(true);
@@ -271,10 +279,10 @@ public class StudentFormController {
 
     public void txtAddressOnMouseKeyTyped(KeyEvent keyEvent) {
         String txt = txtAddress.getText();
-        if(ValidateFields.addressCheck(txt)){
+        if (ValidateFields.addressCheck(txt)) {
             txtAddress.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnEnable();
-        }else{
+        } else {
             txtAddress.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnSave.setDisable(true);
             btnUpdate.setDisable(true);
@@ -284,10 +292,10 @@ public class StudentFormController {
 
     public void txtContact1OnMouseKeyTyped(KeyEvent keyEvent) {
         String txt = txtContact1.getText();
-        if(ValidateFields.contactCheck(txt)){
+        if (ValidateFields.contactCheck(txt)) {
             txtContact1.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnEnable();
-        }else{
+        } else {
             txtContact1.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnSave.setDisable(true);
             btnUpdate.setDisable(true);
@@ -295,10 +303,10 @@ public class StudentFormController {
         }
     }
 
-    public void btnEnable(){
-        if(ValidateFields.nameCheck(txtStName.getText()) && ValidateFields.addressCheck(txtAddress.getText()) &&
+    public void btnEnable() {
+        if (ValidateFields.nameCheck(txtStName.getText()) && ValidateFields.addressCheck(txtAddress.getText()) &&
                 ValidateFields.contactCheck(txtContact1.getText())
-        ){
+        ) {
             btnSave.setDisable(false);
             btnUpdate.setDisable(false);
             btnDelete.setDisable(false);

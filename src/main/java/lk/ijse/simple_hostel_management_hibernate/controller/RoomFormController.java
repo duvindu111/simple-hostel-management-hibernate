@@ -20,6 +20,8 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.AlertController;
 import lk.ijse.simple_hostel_management_hibernate.controller.util.ValidateFields;
 import lk.ijse.simple_hostel_management_hibernate.dto.RoomDTO;
+import lk.ijse.simple_hostel_management_hibernate.entity.Room;
+import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 import lk.ijse.simple_hostel_management_hibernate.service.ServiceFactory;
 import lk.ijse.simple_hostel_management_hibernate.service.custom.RoomService;
 import lk.ijse.simple_hostel_management_hibernate.view.tm.RoomTM;
@@ -101,17 +103,25 @@ public class RoomFormController {
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
         boolean noEmptyFields = noEmptyValuesInTextFields();
+        RoomDTO roomDTO = getDetailsInTextFields();
         if (noEmptyFields) {
-            RoomDTO roomDTO = getDetailsInTextFields();
-            boolean saved = roomService.deleteRoomType(roomDTO);
-            setDataToTableView();
-            if (saved) {
-                AlertController.confirmmessage("room details updated successfully");
-                clearTxtFields();
+            Room room = roomService.getRoomAvailabilty(roomDTO);
+            if (room != null) {
+                boolean result = AlertController.okconfirmmessage("Are you sure you want to delete room\n " + roomDTO.toString());
+                if (result) {
+                    boolean saved = roomService.deleteRoomType(roomDTO);
+                    setDataToTableView();
+                    if (saved) {
+                        AlertController.confirmmessage("room details deleted successfully");
+                        clearTxtFields();
+                    } else {
+                        AlertController.errormessage("room details deleting process unsuccessful");
+                    }
+                }
             } else {
-                AlertController.errormessage("room details updating process unsuccessful");
+                AlertController.errormessage("room type id " + roomDTO.getRoomTypeId() + " doesn't exist");
             }
-        }else{
+        } else {
             AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
@@ -128,7 +138,7 @@ public class RoomFormController {
             } else {
                 AlertController.errormessage("room details updating process unsuccessful");
             }
-        }else{
+        } else {
             AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
@@ -145,7 +155,7 @@ public class RoomFormController {
             } else {
                 AlertController.errormessage("room details saving process unsuccessful");
             }
-        }else{
+        } else {
             AlertController.errormessage("please make sure to fill out all the required fields");
         }
     }
@@ -235,10 +245,10 @@ public class RoomFormController {
         }
     }
 
-    public void btnEnable(){
-        if(ValidateFields.roomIdCheck(txtId.getText()) && ValidateFields.moneyCheck(txtKeyMoney.getText()) &&
+    public void btnEnable() {
+        if (ValidateFields.roomIdCheck(txtId.getText()) && ValidateFields.moneyCheck(txtKeyMoney.getText()) &&
                 ValidateFields.numberCheck(txtRoomQty.getText()) && ValidateFields.numberCheck(txtPersonQty.getText())
-        ){
+        ) {
             btnSave.setDisable(false);
             btnUpdate.setDisable(false);
             btnDelete.setDisable(false);
@@ -247,10 +257,10 @@ public class RoomFormController {
 
     public void txtIdOnMouseKeyTyped(KeyEvent keyEvent) {
         String txt = txtId.getText();
-        if(ValidateFields.roomIdCheck(txt)){
+        if (ValidateFields.roomIdCheck(txt)) {
             txtId.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnEnable();
-        }else{
+        } else {
             txtId.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnSave.setDisable(true);
             btnUpdate.setDisable(true);
@@ -263,10 +273,10 @@ public class RoomFormController {
 
     public void txtKeyMoneyOnMouseKeyTyped(KeyEvent keyEvent) {
         String txt = txtKeyMoney.getText();
-        if(ValidateFields.moneyCheck(txt)){
+        if (ValidateFields.moneyCheck(txt)) {
             txtKeyMoney.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnEnable();
-        }else{
+        } else {
             txtKeyMoney.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnSave.setDisable(true);
             btnUpdate.setDisable(true);
@@ -276,10 +286,10 @@ public class RoomFormController {
 
     public void txtRoomQtyOnMouseKeyTyped(KeyEvent keyEvent) {
         String txt = txtRoomQty.getText();
-        if(ValidateFields.numberCheck(txt)){
+        if (ValidateFields.numberCheck(txt)) {
             txtRoomQty.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnEnable();
-        }else{
+        } else {
             txtRoomQty.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnSave.setDisable(true);
             btnUpdate.setDisable(true);
@@ -289,10 +299,10 @@ public class RoomFormController {
 
     public void txtPersonQtyOnMouseKeyTyped(KeyEvent keyEvent) {
         String txt = txtPersonQty.getText();
-        if(ValidateFields.numberCheck(txt)){
+        if (ValidateFields.numberCheck(txt)) {
             txtPersonQty.setStyle("-fx-text-fill: black; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnEnable();
-        }else{
+        } else {
             txtPersonQty.setStyle("-fx-text-fill: red; -fx-background-color: #ebebeb; -fx-background-radius: 15");
             btnSave.setDisable(true);
             btnUpdate.setDisable(true);

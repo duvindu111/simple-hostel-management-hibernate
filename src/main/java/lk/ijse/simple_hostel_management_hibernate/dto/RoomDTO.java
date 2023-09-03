@@ -63,13 +63,7 @@ public class RoomDTO {
 
     @Override
     public String toString() {
-        return "RoomDto{" +
-                "perRoom=" + perRoom +
-                ", roomQty=" + roomQty +
-                ", keyMoney='" + keyMoney + '\'' +
-                ", roomTypeId='" + roomTypeId + '\'' +
-                ", roomType='" + roomType + '\'' +
-                '}';
+        return "perRoom= "+perRoom+" roomQty= "+roomQty+" keyMoney= "+keyMoney+" roomTypeId= "+roomTypeId+" roomType= "+roomType;
     }
 
     public Room toEntity(){

@@ -1,26 +1,28 @@
 package lk.ijse.simple_hostel_management_hibernate.entity;
 
-import lk.ijse.simple_hostel_management_hibernate.embedded.ReservationPK;
-
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "reservation")
-public class Reservation{
+public class Reservation {
 
+    @Id
     @Column(name = "res_id", unique = true, nullable = false)
     private String reservationId;
     @Column(name = "date", nullable = false)
     private LocalDate reservationDate;
-    @EmbeddedId
-    private ReservationPK reservationPK;
+    @Column(name = "st_id", unique = true, nullable = false)
+    private String studentId;
+    @Column(name = "room_type_id", nullable = false)
+    private String roomTypeId;
     @Column(name = "status", nullable = false)
     private String reservationStatus;
 
     @ManyToOne
     @JoinColumn(name = "st_id",
-    referencedColumnName = "st_id",
+            referencedColumnName = "st_id",
             insertable = false,
             updatable = false)
     private Student student;
@@ -35,10 +37,11 @@ public class Reservation{
     public Reservation() {
     }
 
-    public Reservation(String reservationId, LocalDate reservationDate, ReservationPK reservationPK, String reservationStatus) {
+    public Reservation(String reservationId, LocalDate reservationDate, String studentId, String roomTypeId, String reservationStatus) {
         this.reservationId = reservationId;
         this.reservationDate = reservationDate;
-        this.reservationPK = reservationPK;
+        this.studentId = studentId;
+        this.roomTypeId = roomTypeId;
         this.reservationStatus = reservationStatus;
     }
 
@@ -58,12 +61,20 @@ public class Reservation{
         this.reservationDate = reservationDate;
     }
 
-    public ReservationPK getReservationPK() {
-        return reservationPK;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setReservationPK(ReservationPK reservationPK) {
-        this.reservationPK = reservationPK;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getRoomTypeId() {
+        return roomTypeId;
+    }
+
+    public void setRoomTypeId(String roomTypeId) {
+        this.roomTypeId = roomTypeId;
     }
 
     public String getReservationStatus() {
@@ -79,8 +90,9 @@ public class Reservation{
         return "Reservation{" +
                 "reservationId='" + reservationId + '\'' +
                 ", reservationDate=" + reservationDate +
-                ", reservationPK=" + reservationPK +
-                ", reservationStatus=" + reservationStatus +
+                ", studentId='" + studentId + '\'' +
+                ", roomTypeId='" + roomTypeId + '\'' +
+                ", reservationStatus='" + reservationStatus + '\'' +
                 '}';
     }
 }

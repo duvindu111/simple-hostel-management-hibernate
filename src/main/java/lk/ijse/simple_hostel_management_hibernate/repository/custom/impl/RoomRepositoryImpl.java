@@ -47,7 +47,8 @@ public class RoomRepositoryImpl implements RoomRepository {
 
     @Override
     public Room get(String s) {
-        return null;
+        Room room =session.get(Room.class,s);
+        return room;
     }
 
     @Override

@@ -2,6 +2,7 @@ package lk.ijse.simple_hostel_management_hibernate.entity;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.ArrayList;
 import java.util.List;

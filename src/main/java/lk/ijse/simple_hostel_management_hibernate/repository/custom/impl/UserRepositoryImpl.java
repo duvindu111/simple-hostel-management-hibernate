@@ -62,7 +62,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void delete(User entity) {
-        //not yet implemented
+        session.delete(entity);
     }
 
     @Override

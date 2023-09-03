@@ -2,6 +2,7 @@ package lk.ijse.simple_hostel_management_hibernate.entity;
 
 import jakarta.persistence.*;
 import lk.ijse.simple_hostel_management_hibernate.dto.StudentDTO;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
