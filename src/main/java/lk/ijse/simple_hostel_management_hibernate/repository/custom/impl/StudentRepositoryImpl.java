@@ -20,7 +20,7 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     @Override
     public void save(Student entity) {
-        session.save(entity);
+        session.persist(entity);
     }
 
     @Override
@@ -31,12 +31,12 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     @Override
     public void update(Student entity) {
-        session.update(entity);
+        session.merge(entity);
     }
 
     @Override
     public void delete(Student student) {
-        session.delete(student);
+        session.remove(student);
     }
 
     @Override

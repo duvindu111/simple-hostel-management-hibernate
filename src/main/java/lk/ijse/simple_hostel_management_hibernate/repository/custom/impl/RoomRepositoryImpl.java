@@ -42,7 +42,7 @@ public class RoomRepositoryImpl implements RoomRepository {
 
     @Override
     public void save(Room entity) {
-        session.save(entity);
+        session.persist(entity);
     }
 
     @Override
@@ -53,12 +53,12 @@ public class RoomRepositoryImpl implements RoomRepository {
 
     @Override
     public void update(Room entity) {
-        session.update(entity);
+        session.merge(entity);
     }
 
     @Override
     public void delete(Room entity) {
-        session.delete(entity);
+        session.remove(entity);
     }
 
     @Override

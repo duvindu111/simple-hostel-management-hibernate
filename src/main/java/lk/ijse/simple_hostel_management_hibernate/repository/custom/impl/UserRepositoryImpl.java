@@ -46,7 +46,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void save(User entity) {
-        session.save(entity);
+        session.persist(entity);
     }
 
     @Override
@@ -57,12 +57,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void update(User entity) {
-        session.update(entity);
+        session.merge(entity);
     }
 
     @Override
     public void delete(User entity) {
-        session.delete(entity);
+        session.remove(entity);
     }
 
     @Override

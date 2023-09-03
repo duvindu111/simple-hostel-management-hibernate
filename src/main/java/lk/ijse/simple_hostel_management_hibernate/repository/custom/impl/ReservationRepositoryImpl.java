@@ -70,7 +70,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public void save(Reservation entity) {
-        session.save(entity);
+        session.persist(entity);
     }
 
     @Override
@@ -81,12 +81,12 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public void update(Reservation entity) {
-        session.update(entity);
+        session.merge(entity);
     }
 
     @Override
     public void delete(Reservation entity) {
-        session.delete(entity);
+        session.remove(entity);
     }
 
     @Override
