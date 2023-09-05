@@ -13,36 +13,26 @@ public class Reservation {
     private String reservationId;
     @Column(name = "date", nullable = false)
     private LocalDate reservationDate;
-    @Column(name = "st_id", unique = true, nullable = false)
-    private String studentId;
-    @Column(name = "room_type_id", nullable = false)
-    private String roomTypeId;
     @Column(name = "status", nullable = false)
     private String reservationStatus;
 
     @ManyToOne
-    @JoinColumn(name = "st_id",
-            referencedColumnName = "st_id",
-            insertable = false,
-            updatable = false)
+    @JoinColumn(name = "st_id", referencedColumnName = "st_id", unique = true, nullable = false)
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "room_type_id",
-            referencedColumnName = "room_type_id",
-            insertable = false,
-            updatable = false)
+    @JoinColumn(name = "room_type_id", referencedColumnName = "room_type_id", nullable = false)
     private Room room;
 
     public Reservation() {
     }
 
-    public Reservation(String reservationId, LocalDate reservationDate, String studentId, String roomTypeId, String reservationStatus) {
+    public Reservation(String reservationId, LocalDate reservationDate, String reservationStatus, Student student, Room room) {
         this.reservationId = reservationId;
         this.reservationDate = reservationDate;
-        this.studentId = studentId;
-        this.roomTypeId = roomTypeId;
         this.reservationStatus = reservationStatus;
+        this.student = student;
+        this.room = room;
     }
 
     public String getReservationId() {
@@ -61,20 +51,20 @@ public class Reservation {
         this.reservationDate = reservationDate;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public String getRoomTypeId() {
-        return roomTypeId;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRoomTypeId(String roomTypeId) {
-        this.roomTypeId = roomTypeId;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public String getReservationStatus() {
@@ -90,9 +80,9 @@ public class Reservation {
         return "Reservation{" +
                 "reservationId='" + reservationId + '\'' +
                 ", reservationDate=" + reservationDate +
-                ", studentId='" + studentId + '\'' +
-                ", roomTypeId='" + roomTypeId + '\'' +
                 ", reservationStatus='" + reservationStatus + '\'' +
+                ", student=" + student +
+                ", room=" + room +
                 '}';
     }
 }

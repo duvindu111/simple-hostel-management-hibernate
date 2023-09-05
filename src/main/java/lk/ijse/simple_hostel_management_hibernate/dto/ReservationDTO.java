@@ -1,6 +1,8 @@
 package lk.ijse.simple_hostel_management_hibernate.dto;
 
 import lk.ijse.simple_hostel_management_hibernate.entity.Reservation;
+import lk.ijse.simple_hostel_management_hibernate.entity.Room;
+import lk.ijse.simple_hostel_management_hibernate.entity.Student;
 
 import java.time.LocalDate;
 
@@ -73,8 +75,12 @@ public class ReservationDTO {
         Reservation reservation = new Reservation();
         reservation.setReservationDate(this.date);
         reservation.setReservationId(this.reservationId);
-        reservation.setRoomTypeId(this.roomTypeId);
-        reservation.setStudentId(this.studentId);
+        Student student = new Student();
+        student.setStudentId(this.studentId);
+        reservation.setStudent(student);
+        Room room = new Room();
+        room.setRoomTypeId(this.roomTypeId);
+        reservation.setRoom(room);
         reservation.setReservationStatus(this.status);
         return reservation;
     }

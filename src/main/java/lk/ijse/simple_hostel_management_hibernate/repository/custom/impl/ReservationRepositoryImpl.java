@@ -23,7 +23,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public int getReservationCount(String roomTypeId) {
-        String sql = "SELECT COUNT(r) FROM Reservation r WHERE r.roomTypeId = :room_type_id";
+        String sql = "SELECT COUNT(r) FROM Reservation r WHERE r.room.roomTypeId = :room_type_id";
         Query query = session.createQuery(sql);
         query.setParameter("room_type_id", roomTypeId);
         long count = (long) query.getSingleResult();
@@ -60,7 +60,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         String sql = "SELECT s " +
                 "FROM Student s " +
                 "INNER JOIN Reservation r " +
-                "ON s.studentId=r.studentId " +
+                "ON s.studentId=r.student.studentId " +
                 "WHERE r.reservationId= :res_id ";
         Query query = session.createQuery(sql);
         query.setParameter("res_id", resId);

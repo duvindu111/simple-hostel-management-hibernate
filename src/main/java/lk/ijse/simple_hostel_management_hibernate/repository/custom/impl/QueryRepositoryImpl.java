@@ -39,9 +39,9 @@ public class QueryRepositoryImpl implements QueryRepository {
                 "RE.reservationId,RE.reservationDate,RO.roomType,RO.keyMoney ) " +
                 "FROM Student AS S " +
                 "INNER JOIN Reservation AS RE " +
-                "ON S.studentId=RE.studentId " +
+                "ON S.studentId=RE.student.studentId " +
                 "INNER JOIN Room AS RO " +
-                "ON RE.roomTypeId=RO.roomTypeId " +
+                "ON RE.room.roomTypeId=RO.roomTypeId " +
                 "WHERE RE.reservationStatus= :status ";
         Query query = session.createQuery(hql);
         query.setParameter("status", "NOT PAID");

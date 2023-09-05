@@ -77,8 +77,8 @@ public class ReservationServiceImpl implements ReservationService {
                         new ReservationDTO(
                                 reservation.getReservationDate(),
                                 reservation.getReservationId(),
-                                reservation.getRoomTypeId(),
-                                reservation.getStudentId(),
+                                reservation.getRoom().getRoomTypeId(),
+                                reservation.getStudent().getStudentId(),
                                 reservation.getReservationStatus()
                         )
                 );
@@ -121,6 +121,7 @@ public class ReservationServiceImpl implements ReservationService {
             transaction.rollback();
             session.close();
             System.out.println("reservation saving process failed");
+            e.printStackTrace();
             System.out.println(e);
             return false;
         }
@@ -128,7 +129,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     public void updateAvailableRooms(ReservationDTO reservationDTO){
-        String roomTypeId = reservationDTO.toEntity().getRoomTypeId();
+        String roomTypeId = reservationDTO.toEntity().getRoom().getRoomTypeId();
 
             int count = reservationRepository.getReservationCount(roomTypeId);
 
