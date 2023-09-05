@@ -22,7 +22,7 @@ public class Room {
     private String keyMoney;
     @Column(name = "room_qty", nullable = false)
     private int roomQuantity;
-    @Column(name = "available_room_qty", nullable = true)
+    @Column(name = "available_room_qty", nullable = false)
     private int availableRooms;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy =  "room")

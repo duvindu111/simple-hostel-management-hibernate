@@ -15,11 +15,9 @@ public class Reservation {
     private LocalDate reservationDate;
     @Column(name = "status", nullable = false)
     private String reservationStatus;
-
     @ManyToOne
     @JoinColumn(name = "st_id", referencedColumnName = "st_id", unique = true, nullable = false)
     private Student student;
-
     @ManyToOne
     @JoinColumn(name = "room_type_id", referencedColumnName = "room_type_id", nullable = false)
     private Room room;

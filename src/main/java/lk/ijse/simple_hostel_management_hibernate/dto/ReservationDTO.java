@@ -75,12 +75,15 @@ public class ReservationDTO {
         Reservation reservation = new Reservation();
         reservation.setReservationDate(this.date);
         reservation.setReservationId(this.reservationId);
+
         Student student = new Student();
         student.setStudentId(this.studentId);
         reservation.setStudent(student);
+
         Room room = new Room();
         room.setRoomTypeId(this.roomTypeId);
         reservation.setRoom(room);
+
         reservation.setReservationStatus(this.status);
         return reservation;
     }
