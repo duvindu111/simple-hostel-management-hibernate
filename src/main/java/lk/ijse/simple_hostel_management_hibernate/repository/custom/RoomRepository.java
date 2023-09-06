@@ -14,4 +14,6 @@ public interface RoomRepository extends CrudRepository<Room,String> {
     List<RoomProjection> getDetailsForRoomAvailabily();
 
     List<String> loadRoomTypeIds();
+
+    void updateAvailableRooms(int available_rooms, String roomTypeId);
 }

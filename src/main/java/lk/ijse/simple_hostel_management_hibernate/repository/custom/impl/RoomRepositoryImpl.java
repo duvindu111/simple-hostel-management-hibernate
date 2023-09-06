@@ -41,6 +41,22 @@ public class RoomRepositoryImpl implements RoomRepository {
     }
 
     @Override
+    public void updateAvailableRooms(int available_rooms, String roomTypeId) {
+
+       /* String sql = "UPDATE Room r SET r.availableRooms = :available_room_qty WHERE r.roomTypeId= :room_type_id";
+        Query query = session.createQuery(sql);
+        query.setParameter("available_room_qty", available_rooms);
+        query.setParameter("room_type_id", roomTypeId);
+        query.executeUpdate();*/
+
+            Room room = session.get(Room.class,roomTypeId);
+            System.out.println(room);
+            room.setAvailableRooms(available_rooms);
+            System.out.println(room);
+            session.merge(room);
+    }
+
+    @Override
     public void save(Room entity) {
         session.persist(entity);
     }

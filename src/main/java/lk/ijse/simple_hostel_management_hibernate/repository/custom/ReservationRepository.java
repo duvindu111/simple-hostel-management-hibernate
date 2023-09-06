@@ -15,7 +15,5 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
 
     List getMaxPersonsPerRoom(String roomTypeId);
 
-    void updateAvailableRooms(int available_rooms, String roomTypeId);
-
     Student getStudentbyResId(String resId);
 }

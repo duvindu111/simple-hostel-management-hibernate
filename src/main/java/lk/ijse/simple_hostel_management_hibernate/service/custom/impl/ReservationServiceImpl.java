@@ -101,6 +101,7 @@ public class ReservationServiceImpl implements ReservationService {
         Transaction transaction = session.beginTransaction();
         try {
             reservationRepository.setSession(session);
+            roomRepository.setSession(session);
             reservationRepository.save(reservationDTO.toEntity());
             updateAvailableRooms(reservationDTO);
 
@@ -141,8 +142,7 @@ public class ReservationServiceImpl implements ReservationService {
             int unavailable_rooms = count / perRoom;
             int available_rooms = roomQuantity - unavailable_rooms;
 
-            reservationRepository.updateAvailableRooms(available_rooms, roomTypeId);
-
+            roomRepository.updateAvailableRooms(available_rooms, roomTypeId);
     }
 
     @Override
@@ -151,7 +151,9 @@ public class ReservationServiceImpl implements ReservationService {
         Transaction transaction = session.beginTransaction();
         try {
             reservationRepository.setSession(session);
+            roomRepository.setSession(session);
             reservationRepository.update(reservationDTO.toEntity());
+            updateAvailableRooms(reservationDTO);
             transaction.commit();
             session.close();
             return true;
@@ -180,10 +182,9 @@ public class ReservationServiceImpl implements ReservationService {
         Transaction transaction = session.beginTransaction();
         try {
             reservationRepository.setSession(session);
+            roomRepository.setSession(session);
             reservationRepository.delete(reservationDTO.toEntity());
-
             updateAvailableRooms(reservationDTO);
-
             transaction.commit();
             session.close();
             return true;

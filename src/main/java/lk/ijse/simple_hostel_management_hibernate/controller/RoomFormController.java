@@ -130,9 +130,9 @@ public class RoomFormController {
         boolean noEmptyFields = noEmptyValuesInTextFields();
         if (noEmptyFields) {
             RoomDTO roomDTO = getDetailsInTextFields();
-            boolean saved = roomService.updateRoomType(roomDTO);
+            boolean updated = roomService.updateRoomType(roomDTO);
             setDataToTableView();
-            if (saved) {
+            if (updated) {
                 AlertController.confirmmessage("room details updated successfully");
                 clearTxtFields();
             } else {
